@@ -1,0 +1,104 @@
+@import "tailwindcss";
+
+@theme {
+  /* Design tokens ported from the reference portfolio (amanydv.in) */
+  --color-page: oklch(14.5% 0.006 265);
+  --color-subtle: oklch(17.8% 0.007 265);
+  --color-surface: oklch(20.5% 0.008 265);
+  --color-surface-hover: oklch(23.8% 0.009 265);
+
+  --color-ink: oklch(97% 0.002 265);
+  --color-ink-2: oklch(72.4% 0 0);
+  --color-ink-3: oklch(63% 0.008 265);
+
+  --color-line: oklch(100% 0 0 / 0.07);
+  --color-line-hi: oklch(100% 0 0 / 0.14);
+
+  --color-accent: oklch(74% 0.14 62);
+  --color-accent-muted: oklch(74% 0.14 62 / 0.12);
+
+  --font-sans: "Inter Tight", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Instrument Serif", ui-serif, Georgia, serif;
+  --font-mono: "Geist Mono", ui-monospace, SFMono-Regular, monospace;
+
+  --ease-expo: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--color-page);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection {
+    background: var(--color-accent-muted);
+    color: var(--color-ink);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+}
+
+/* Content column — matches --w-content: 56rem on the reference site */
+.wrap {
+  width: 100%;
+  max-width: 56rem;
+  margin-inline: auto;
+  padding-inline: 1.25rem;
+}
+
+@media (min-width: 768px) {
+  .wrap {
+    padding-inline: 1.5rem;
+  }
+}
+
+/* Scroll reveal */
+.reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition:
+    opacity 0.7s var(--ease-expo),
+    transform 0.7s var(--ease-expo);
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* Faint grid backdrop used behind the hero */
+.grid-bg {
+  background-image:
+    linear-gradient(to right, oklch(100% 0 0 / 0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, oklch(100% 0 0 / 0.03) 1px, transparent 1px);
+  background-size: 56px 56px;
+  mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 35%, transparent 75%);
+}
+
+.hairline {
+  border-color: var(--color-line);
+}
