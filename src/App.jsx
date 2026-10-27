@@ -46,11 +46,11 @@ export default function App() {
       <Header />
       <main>
         <Hero />
-        <Experience />
+        <About />
         <Projects />
         <Skills />
+        <Experience />
         <Contributions />
-        <About />
         <Contact />
       </main>
       <Footer />
