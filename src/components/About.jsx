@@ -1,109 +1,141 @@
-import { ArrowUpRight, Mail, Download } from "lucide-react";
+import { ArrowUpRight, Download, Code2, Server, Database, ShieldCheck } from "lucide-react";
 import { GithubIcon, LinkedinIcon } from "./BrandIcons.jsx";
 import Section from "./Section.jsx";
-import { profile, skillCount } from "../data/profile.js";
+import { profile } from "../data/profile.js";
 
-const channels = [
-  { label: "Gmail", handle: profile.email, href: profile.links.email, icon: Mail },
-  { label: "LinkedIn", handle: profile.linkedin, href: profile.links.linkedin, icon: LinkedinIcon },
-  { label: "GitHub", handle: `@${profile.github}`, href: profile.links.github, icon: GithubIcon },
+const pillars = [
+  {
+    icon: Code2,
+    title: "Modern Frontend",
+    desc: "React, Next.js, TypeScript and Tailwind CSS — crafting fast, accessible, and responsive user interfaces.",
+  },
+  {
+    icon: Server,
+    title: "Backend & REST APIs",
+    desc: "Node.js and Express.js — designing structured endpoints, robust error handling, and clean MVC architecture.",
+  },
+  {
+    icon: Database,
+    title: "Database Modeling",
+    desc: "MongoDB & Mongoose — schema design, validation, efficient indexing, and persistent state management.",
+  },
+  {
+    icon: ShieldCheck,
+    title: "Auth & Security",
+    desc: "JWT authentication, secure HTTP cookies, bcrypt password hashing, and role-based access control.",
+  },
 ];
 
 export default function About() {
   return (
-    <Section id="about" kicker="$whoami" heading={profile.name} sub={profile.roleLine}>
-      <div className="grid gap-8 md:grid-cols-[1.3fr_1fr]">
+    <Section
+      id="about"
+      kicker="About Me"
+      heading="Background & Engineering Focus"
+      sub="A computer science student building practical, production-ready web applications."
+    >
+      <div className="grid gap-10 lg:grid-cols-[1.3fr_1fr]">
+        {/* Left Side: Story & Pillars */}
         <div className="reveal">
-          <p className="text-[15px] leading-relaxed text-ink-2">{profile.summary}</p>
+          <div className="space-y-4 text-base leading-relaxed text-ink-2">
+            <p>
+              I am a <strong className="font-semibold text-ink">Full Stack Developer</strong> currently pursuing my Bachelor of Technology in Computer Science at Government Engineering College, Ajmer.
+            </p>
+            <p>
+              My focus is on creating end-to-end applications where intuitive, accessible frontends meet reliable backend services. Rather than building throwaway toys, I focus on shipping real software — from recruitment boards and AI note apps to inventory management systems.
+            </p>
+            <p>
+              I have published <strong className="font-semibold text-ink">24+ repositories</strong> and deployed <strong className="font-semibold text-ink">6+ live web apps</strong> on Vercel. I care deeply about clean code, Lighthouse performance scores, and user privacy.
+            </p>
+          </div>
 
-          <p className="mt-4 text-[15px] leading-relaxed text-ink-2">
-            <strong className="font-semibold text-ink">24 public repositories.</strong>{" "}
-            <strong className="font-semibold text-ink">6 apps live on Vercel.</strong> When I&rsquo;m not
-            shipping, I&rsquo;m deep in backend APIs, auth flows and database design.
-          </p>
+          {/* 4 Pillars */}
+          <div className="mt-8 grid gap-3 sm:grid-cols-2">
+            {pillars.map(({ icon: Icon, title, desc }) => (
+              <div
+                key={title}
+                className="group rounded-xl border border-line bg-surface/70 p-4 transition-all hover:border-line-hi hover:bg-surface"
+              >
+                <div className="flex items-center gap-2.5">
+                  <span className="flex size-8 items-center justify-center rounded-lg border border-line bg-subtle text-accent">
+                    <Icon className="size-4" />
+                  </span>
+                  <h4 className="text-sm font-semibold text-ink">{title}</h4>
+                </div>
+                <p className="mt-2 text-xs leading-relaxed text-ink-3">{desc}</p>
+              </div>
+            ))}
+          </div>
 
-          <p className="mt-4 text-[15px] leading-relaxed text-ink-2">
-            <span className="font-semibold text-ink">Open to work:</span> {profile.openTo}{" "}
-            <a href="#contact" className="text-accent hover:underline">
-              Let&rsquo;s talk.
-            </a>
-          </p>
-
-          <div className="mt-6 flex flex-wrap gap-2">
+          {/* Action CTAs */}
+          <div className="mt-8 flex flex-wrap gap-3">
             <a
               href={profile.resume}
               target="_blank"
               rel="noreferrer"
-              className="inline-flex items-center gap-2 rounded-md bg-accent px-4 py-2 text-sm font-medium text-page transition-transform hover:-translate-y-0.5"
+              className="inline-flex items-center gap-2 rounded-lg bg-accent px-4 py-2.5 text-sm font-semibold text-page shadow-sm transition-all hover:bg-sky-400 hover:-translate-y-0.5"
             >
               <Download className="size-4" aria-hidden="true" />
-              Résumé
+              Download Résumé
             </a>
             <a
               href="#contact"
-              className="inline-flex items-center gap-2 rounded-md border border-line bg-surface px-4 py-2 text-sm text-ink-2 transition-colors hover:border-line-hi hover:bg-surface-hover hover:text-ink"
+              className="inline-flex items-center gap-2 rounded-lg border border-line bg-surface px-4 py-2.5 text-sm font-medium text-ink transition-colors hover:border-line-hi hover:bg-surface-hover hover:text-accent"
             >
-              Open to Work
+              Get in Touch
               <ArrowUpRight className="size-4" aria-hidden="true" />
             </a>
             <a
               href={profile.links.github}
               target="_blank"
               rel="noreferrer"
-              className="inline-flex items-center gap-2 rounded-md border border-line bg-surface px-4 py-2 text-sm text-ink-2 transition-colors hover:border-line-hi hover:bg-surface-hover hover:text-ink"
+              className="inline-flex items-center gap-2 rounded-lg border border-line bg-surface px-4 py-2.5 text-sm font-medium text-ink transition-colors hover:border-line-hi hover:bg-surface-hover hover:text-accent"
             >
               <GithubIcon className="size-4" />
               GitHub
             </a>
           </div>
-
-          <div className="mt-6 border-t border-line pt-5">
-            <ul className="space-y-2">
-              {channels.map(({ label, handle, href, icon: Icon }) => (
-                <li key={label}>
-                  <a
-                    href={href}
-                    target={href.startsWith("mailto:") ? undefined : "_blank"}
-                    rel="noreferrer"
-                    className="group inline-flex items-center gap-2.5 text-sm text-ink-2 transition-colors hover:text-ink"
-                  >
-                    <Icon className="size-4 text-accent" aria-hidden="true" />
-                    <span className="font-mono">{handle}</span>
-                    <ArrowUpRight
-                      className="size-3.5 opacity-0 transition-opacity group-hover:opacity-100"
-                      aria-hidden="true"
-                    />
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
         </div>
 
-        <aside className="reveal" style={{ transitionDelay: "100ms" }}>
-          <div className="overflow-hidden rounded-xl border border-line bg-surface">
-            <img
-              src={profile.avatar}
-              alt={profile.name}
-              className="aspect-square w-full object-cover"
-              loading="lazy"
-            />
-            <dl className="divide-y divide-line border-t border-line">
+        {/* Right Side: Profile Summary Card */}
+        <aside className="reveal" style={{ transitionDelay: "120ms" }}>
+          <div className="sticky top-24 overflow-hidden rounded-2xl border border-line bg-surface/90 shadow-xl backdrop-blur-md">
+            <div className="relative aspect-4/3 w-full overflow-hidden bg-subtle">
+              <img
+                src={profile.avatar}
+                alt={profile.name}
+                className="h-full w-full object-cover object-top"
+                loading="lazy"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-surface via-transparent to-transparent" />
+              <div className="absolute bottom-3 left-4 right-4 flex items-center justify-between">
+                <span className="rounded-md border border-line bg-surface/80 px-2.5 py-1 text-xs font-semibold text-ink backdrop-blur-sm">
+                  {profile.name}
+                </span>
+                <span className="rounded-md bg-accent/90 px-2 py-0.5 text-xs font-bold text-page">
+                  {profile.role}
+                </span>
+              </div>
+            </div>
+
+            <div className="divide-y divide-line p-2">
               {[
-                ["Stack", profile.skills.map((g) => g.group).join(", ")],
-                ["Core", `${skillCount} technologies`],
-                ["Based in", profile.location],
-                ["Focus", "Backend APIs & full-stack apps"],
+                ["Education", "B.Tech in Computer Science (2025–2029)"],
+                ["College", "Govt. Engineering College, Ajmer"],
+                ["Location", "Ajmer, Rajasthan, India"],
+                ["Specialty", "MERN Stack, Next.js & REST APIs"],
+                ["Status", "Open to Full-Time & Internships"],
               ].map(([term, value]) => (
-                <div key={term} className="flex gap-3 px-4 py-3">
-                  <dt className="w-20 shrink-0 font-mono text-[11px] text-ink-3 uppercase">{term}</dt>
-                  <dd className="text-[13px] leading-snug text-ink-2">{value}</dd>
+                <div key={term} className="flex items-start justify-between gap-4 px-3 py-2.5 text-xs">
+                  <span className="font-mono text-ink-3 uppercase">{term}</span>
+                  <span className="text-right font-medium text-ink">{value}</span>
                 </div>
               ))}
-            </dl>
+            </div>
           </div>
         </aside>
       </div>
     </Section>
   );
 }
+
