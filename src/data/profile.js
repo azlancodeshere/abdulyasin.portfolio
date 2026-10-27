@@ -72,6 +72,7 @@ export const profile = {
   featured: [
     {
       name: "Surhires",
+      category: "Frontend",
       kind: "Recruitment Platform",
       blurb:
         "A responsive 3-page recruitment platform (Home, Jobs, Employers) built with the Next.js App Router and deployed live on Vercel.",
@@ -89,7 +90,8 @@ export const profile = {
     },
     {
       name: "Notes Keeper AI",
-      kind: "AI-powered notes app",
+      category: "Full Stack",
+      kind: "AI-Powered Notes App",
       blurb:
         "Full-stack AI notes application — React frontend, Node.js/Express API, MongoDB for persistent storage.",
       points: [
@@ -106,7 +108,8 @@ export const profile = {
     },
     {
       name: "Inventory Management",
-      kind: "Stock & dashboard system",
+      category: "Full Stack",
+      kind: "Stock & Dashboard System",
       blurb:
         "Full-stack inventory system with product management, stock tracking and a dashboard that surfaces low and out-of-stock items.",
       points: [
@@ -126,7 +129,8 @@ export const profile = {
   others: [
     {
       name: "Syncora",
-      kind: "Appointment booking",
+      category: "Full Stack",
+      kind: "Appointment Booking",
       blurb:
         "Appointment platform connecting clients with Doctors, Lawyers, Barbers and Trainers — availability slots, request lifecycle and role-based access.",
       stack: ["React", "Node.js", "Express", "MongoDB", "JWT"],
@@ -137,7 +141,8 @@ export const profile = {
     },
     {
       name: "Ecommerce Full Stack",
-      kind: "E-commerce",
+      category: "Full Stack",
+      kind: "E-Commerce",
       blurb: "Full-stack e-commerce application, live on Vercel with the source on GitHub.",
       stack: ["React", "Node.js", "Express", "MongoDB"],
       live: "https://ecommerce-full-stack-olive.vercel.app",
@@ -148,8 +153,9 @@ export const profile = {
     },
     {
       name: "Hospital System",
-      kind: "Healthcare",
-      blurb: "Hospital management web app, deployed live on Vercel.",
+      category: "Full Stack",
+      kind: "Healthcare Management",
+      blurb: "Hospital management web app with patient records and appointments, deployed live on Vercel.",
       stack: ["React", "Node.js", "Express", "MongoDB"],
       live: "https://hospital-system-eosin-two.vercel.app",
       code: `${REPO}/Hospital-system`,
@@ -159,7 +165,8 @@ export const profile = {
     },
     {
       name: "Ticket Booking",
-      kind: "Booking",
+      category: "Full Stack",
+      kind: "Ticket Booking",
       blurb: "Ticket booking application with a React front end and Node.js backend, live on Vercel.",
       stack: ["React", "Node.js", "Express", "MongoDB"],
       live: "https://ticket-booking-lemon.vercel.app",
@@ -170,7 +177,8 @@ export const profile = {
     },
     {
       name: "Chat Application",
-      kind: "Real-time",
+      category: "Backend",
+      kind: "Real-time Messaging",
       blurb:
         "Chat app with a React frontend and Node.js/Express backend, using MongoDB for persistent user and application data.",
       stack: ["React", "JavaScript", "Node.js", "Express", "MongoDB"],
@@ -181,7 +189,8 @@ export const profile = {
     },
     {
       name: "Uber Full Stack",
-      kind: "Ride cloning",
+      category: "Full Stack",
+      kind: "Ride Booking Flow",
       blurb: "Full-stack rebuild of a ride-booking flow — frontend, APIs and database in one repo.",
       stack: ["React", "Node.js", "Express", "MongoDB"],
       code: `${REPO}/Uber-full-stack`,
@@ -195,19 +204,19 @@ export const profile = {
   // Straight out of the resume's "Technical Skills" block.
   skills: [
     { group: "Languages", items: ["JavaScript", "TypeScript"] },
-    { group: "Frontend", items: ["React.js", "Next.js", "HTML", "CSS", "Tailwind CSS", "React Router", "Vite"] },
-    { group: "Backend", items: ["Node.js", "Express.js", "REST APIs"] },
-    { group: "Database", items: ["MongoDB", "Mongoose"] },
-    { group: "Authentication", items: ["JWT", "Cookies", "bcrypt"] },
-    { group: "Tools", items: ["Git", "GitHub", "Postman", "Axios", "CORS", "Cookie Parser"] },
+    { group: "Frontend", items: ["React.js", "Next.js", "HTML5", "CSS3", "Tailwind CSS", "React Router", "Vite"] },
+    { group: "Backend", items: ["Node.js", "Express.js", "REST APIs", "MVC Architecture"] },
+    { group: "Database", items: ["MongoDB", "Mongoose", "Data Modeling"] },
+    { group: "Authentication", items: ["JWT", "HTTP-Only Cookies", "bcrypt", "Role-Based Access"] },
+    { group: "Tools & DevOps", items: ["Git", "GitHub", "Postman", "Axios", "Vercel", "npm"] },
   ],
 };
 
 export const nav = [
-  { label: "$whoami", href: "#about" },
-  { label: "Experience", href: "#experience" },
+  { label: "About", href: "#about" },
   { label: "Projects", href: "#projects" },
-  { label: "Skills", href: "#stack" },
+  { label: "Skills", href: "#skills" },
+  { label: "Experience", href: "#experience" },
   { label: "Contact", href: "#contact" },
 ];
 
