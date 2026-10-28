@@ -1,4 +1,4 @@
-import { ArrowUp, Mail } from "lucide-react";
+import { ArrowUp, ArrowUpRight, Mail } from "lucide-react";
 import { GithubIcon, LinkedinIcon } from "./BrandIcons.jsx";
 import { nav, profile } from "../data/profile.js";
 
@@ -9,7 +9,55 @@ export default function Footer() {
 
   return (
     <footer className="border-t border-line bg-subtle/80 backdrop-blur-md">
-      <div className="wrap py-12">
+      {/* Big closing statement */}
+      <div className="wrap pt-16 pb-12 text-center">
+        <p className="font-mono text-[11px] tracking-[0.22em] text-accent uppercase">
+          {profile.openTo}
+        </p>
+        <h2 className="mx-auto mt-4 max-w-3xl text-4xl font-extrabold tracking-tight text-ink md:text-6xl">
+          Let&rsquo;s{" "}
+          <span className="bg-gradient-to-r from-accent to-sky-400 bg-clip-text text-transparent">
+            build
+          </span>{" "}
+          something
+          <br className="hidden sm:block" /> that works.
+        </h2>
+        <p className="mx-auto mt-4 max-w-prose text-sm text-ink-3">
+          I build fast, accessible web apps with React, Next.js and Node.js — open to teams that
+          value product quality and thoughtful engineering.
+        </p>
+        <div className="mt-7 flex flex-wrap items-center justify-center gap-3">
+          <a
+            href={profile.links.email}
+            className="inline-flex items-center gap-2 rounded-lg bg-accent px-5 py-3 text-sm font-semibold text-page shadow-md shadow-accent/20 transition-all hover:bg-sky-400 hover:shadow-lg hover:-translate-y-0.5"
+          >
+            <Mail className="size-4" aria-hidden="true" />
+            <span>Email me</span>
+          </a>
+          <a
+            href={profile.links.linkedin}
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex items-center gap-2 rounded-lg border border-line bg-surface px-5 py-3 text-sm font-semibold text-ink transition-all hover:border-line-hi hover:bg-surface-hover hover:-translate-y-0.5"
+          >
+            <LinkedinIcon className="size-4" />
+            <span>LinkedIn</span>
+            <ArrowUpRight className="size-3.5" aria-hidden="true" />
+          </a>
+          <a
+            href={profile.links.github}
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex items-center gap-2 rounded-lg border border-line bg-surface px-5 py-3 text-sm font-semibold text-ink transition-all hover:border-line-hi hover:bg-surface-hover hover:-translate-y-0.5"
+          >
+            <GithubIcon className="size-4" />
+            <span>GitHub</span>
+            <ArrowUpRight className="size-3.5" aria-hidden="true" />
+          </a>
+        </div>
+      </div>
+
+      <div className="wrap pb-12">
         <div className="flex flex-col gap-8 md:flex-row md:items-center md:justify-between">
           {/* Left: Branding & Status */}
           <div>

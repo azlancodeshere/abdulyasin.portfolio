@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ArrowUpRight, ExternalLink, Filter, FolderGit2, Star } from "lucide-react";
+import { ArrowUpRight, ExternalLink, FolderGit2, Star } from "lucide-react";
 import { GithubIcon } from "./BrandIcons.jsx";
 import Section from "./Section.jsx";
 import { profile } from "../data/profile.js";
@@ -64,7 +64,18 @@ function CodePlaceholder({ name, category }) {
   );
 }
 
-const CATEGORIES = ["All", "Full Stack", "Frontend", "Backend"];
+const CATEGORY_ORDER = ["Frontend", "Full Stack", "Backend"];
+
+// Keep the tabs in sync with the data: a category that no longer has any
+// projects (they all moved to `featured`) must not show up as a dead tab.
+const CATEGORIES = (() => {
+  const existing = new Set(
+    [...profile.featured, ...profile.others].map((p) => p.category).filter(Boolean),
+  );
+  const ordered = CATEGORY_ORDER.filter((c) => existing.has(c));
+  const rest = [...existing].filter((c) => !CATEGORY_ORDER.includes(c));
+  return ["All", ...ordered, ...rest];
+})();
 
 export default function Projects() {
   const { featured, others } = profile;
@@ -82,7 +93,8 @@ export default function Projects() {
     <Section
       id="projects"
       kicker="Selected Work"
-      heading="Featured Projects"
+      heading="Featured"
+      heading2="Projects"
       sub="Production web applications, full-stack platforms, and developer tooling I've engineered and shipped."
     >
       {/* Category Filter Tabs */}
@@ -245,6 +257,12 @@ export default function Projects() {
             ))}
           </div>
         </div>
+      )}
+      {/* Empty state — a filter that matches nothing should say so */}
+      {filteredFeatured.length + filteredOthers.length === 0 && (
+        <p className="reveal mt-6 rounded-xl border border-dashed border-line bg-surface/40 px-5 py-8 text-center text-sm text-ink-3">
+          No projects in this category yet — choose &ldquo;All&rdquo; to see everything.
+        </p>
       )}
     </Section>
   );

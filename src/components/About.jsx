@@ -31,7 +31,8 @@ export default function About() {
     <Section
       id="about"
       kicker="About Me"
-      heading="Background & Engineering Focus"
+      heading="Background &"
+      heading2="Engineering Focus"
       sub="A computer science student building practical, production-ready web applications."
     >
       <div className="grid gap-10 lg:grid-cols-[1.3fr_1fr]">
@@ -45,7 +46,7 @@ export default function About() {
               My focus is on creating end-to-end applications where intuitive, accessible frontends meet reliable backend services. Rather than building throwaway toys, I focus on shipping real software — from recruitment boards and AI note apps to inventory management systems.
             </p>
             <p>
-              I have published <strong className="font-semibold text-ink">24+ repositories</strong> and deployed <strong className="font-semibold text-ink">6+ live web apps</strong> on Vercel. I care deeply about clean code, Lighthouse performance scores, and user privacy.
+              I have published <strong className="font-semibold text-ink">24+ repositories</strong> and deployed <strong className="font-semibold text-ink">{profile.liveApps}+ live web apps</strong> on Vercel. I care deeply about clean code, Lighthouse performance scores, and user privacy.
             </p>
           </div>
 

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ArrowUpRight, Check, Copy, Mail, MapPin, Phone, Send, Sparkles } from "lucide-react";
+import { ArrowUpRight, Check, Copy, Mail, MapPin, Phone, Send } from "lucide-react";
 import { GithubIcon, LinkedinIcon } from "./BrandIcons.jsx";
 import Section from "./Section.jsx";
 import { profile } from "../data/profile.js";
@@ -67,7 +67,8 @@ export default function Contact() {
     <Section
       id="contact"
       kicker="Get In Touch"
-      heading="Let&rsquo;s Connect"
+      heading="Let&rsquo;s"
+      heading2="Connect"
       sub="I am actively looking for full-time opportunities, internships, and freelance projects. Let's discuss how I can contribute to your team."
     >
       <div className="grid gap-8 lg:grid-cols-[1fr_1.25fr]">

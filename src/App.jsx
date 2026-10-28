@@ -10,11 +10,15 @@ import Contact from "./components/Contact.jsx";
 import Footer from "./components/Footer.jsx";
 
 export default function App() {
-  // One observer drives every .reveal element on the page.
+  // One observer drives every .reveal element on the page. Elements are also
+  // added later (e.g. project cards re-rendered by the category filter), so a
+  // MutationObserver keeps them in sync — otherwise they would stay at
+  // opacity: 0 forever.
   useEffect(() => {
-    const nodes = document.querySelectorAll(".reveal");
+    const all = () => document.querySelectorAll(".reveal");
+
     if (!("IntersectionObserver" in window)) {
-      nodes.forEach((n) => n.classList.add("is-visible"));
+      all().forEach((n) => n.classList.add("is-visible"));
       return;
     }
 
@@ -30,21 +34,37 @@ export default function App() {
       { rootMargin: "0px 0px -10% 0px", threshold: 0.1 },
     );
 
-    nodes.forEach((n) => observer.observe(n));
-    return () => observer.disconnect();
+    const observe = (root) => {
+      if (root.nodeType !== Node.ELEMENT_NODE) return;
+      if (root.classList.contains("reveal")) observer.observe(root);
+      root.querySelectorAll(".reveal").forEach((n) => observer.observe(n));
+    };
+
+    all().forEach((n) => observer.observe(n));
+
+    // Reveal anything React mounts after the initial render.
+    const mutations = new MutationObserver((records) => {
+      records.forEach((record) => record.addedNodes.forEach(observe));
+    });
+    mutations.observe(document.body, { childList: true, subtree: true });
+
+    return () => {
+      mutations.disconnect();
+      observer.disconnect();
+    };
   }, []);
 
   return (
     <div className="min-h-screen bg-page text-ink">
       <a
-        href="#about"
+        href="#content"
         className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:rounded-md focus:bg-accent focus:px-3 focus:py-2 focus:text-sm focus:text-page"
       >
         Skip to content
       </a>
 
       <Header />
-      <main>
+      <main id="content" tabIndex={-1} className="outline-none">
         <Hero />
         <About />
         <Projects />

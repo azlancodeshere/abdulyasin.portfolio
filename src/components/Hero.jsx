@@ -1,4 +1,4 @@
-import { ArrowDown, ArrowUpRight, Download, Mail, Sparkles } from "lucide-react";
+import { ArrowDown, ArrowUpRight, Download, Mail } from "lucide-react";
 import { GithubIcon, LinkedinIcon } from "./BrandIcons.jsx";
 import { profile, stats } from "../data/profile.js";
 
@@ -160,7 +160,9 @@ export default function Hero() {
               <div className="mt-4 grid grid-cols-2 gap-2 text-xs">
                 <div className="rounded-lg border border-line bg-subtle/70 p-2.5">
                   <span className="block text-[11px] text-ink-3">Live Projects</span>
-                  <span className="font-mono text-sm font-bold text-ink">6 Apps Shipped</span>
+                  <span className="font-mono text-sm font-bold text-ink">
+                    {profile.liveApps} Apps Shipped
+                  </span>
                 </div>
                 <div className="rounded-lg border border-line bg-subtle/70 p-2.5">
                   <span className="block text-[11px] text-ink-3">Lighthouse Score</span>
@@ -183,7 +185,7 @@ export default function Hero() {
             >
               <div className="font-mono text-2xl font-extrabold text-ink group-hover:text-accent md:text-3xl">
                 {s.value}
-                <span className="text-accent">+</span>
+                {s.plus && <span className="text-accent">+</span>}
               </div>
               <div className="mt-1 text-xs font-medium text-ink-3">{s.label}</div>
             </div>
