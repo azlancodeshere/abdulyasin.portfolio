@@ -1,5 +1,6 @@
 import { ArrowDown, ArrowUpRight, Download, Mail } from "lucide-react";
 import { GithubIcon, LinkedinIcon } from "./BrandIcons.jsx";
+import { useContributions } from "../hooks/useContributions.js";
 import { profile, stats } from "../data/profile.js";
 
 const socials = [
@@ -11,6 +12,9 @@ const socials = [
 const coreTech = ["React.js", "Next.js", "TypeScript", "Node.js", "Express", "MongoDB", "Tailwind CSS"];
 
 export default function Hero() {
+  // Keeps the contributions stat in step with the live calendar below.
+  const { total: contributions } = useContributions();
+
   return (
     <section id="top" className="relative overflow-hidden pt-12 pb-16 md:pt-20 md:pb-24">
       {/* Background ambient lighting */}
@@ -184,7 +188,7 @@ export default function Hero() {
               className="group rounded-xl border border-line bg-surface/80 p-4 transition-all hover:border-line-hi hover:bg-surface hover:-translate-y-0.5"
             >
               <div className="font-mono text-2xl font-extrabold text-ink group-hover:text-accent md:text-3xl">
-                {s.value}
+                {s.live === "contributions" ? contributions : s.value}
                 {s.plus && <span className="text-accent">+</span>}
               </div>
               <div className="mt-1 text-xs font-medium text-ink-3">{s.label}</div>

@@ -1,11 +1,12 @@
-import contributionData from "../data/contributions.json";
+import { useContributions } from "../hooks/useContributions.js";
 
 /**
  * Native GitHub-style contribution calendar.
  *
- * Data comes from src/data/contributions.json ([date, level, count] per day,
- * Sunday-first, oldest first), refreshed by `npm run sync`. Levels 1-4 use
- * GitHub's own dark-theme greens.
+ * Data comes from useContributions(): the bundled snapshot in
+ * src/data/contributions.json ([date, level, count] per day, Sunday-first,
+ * oldest first) on first paint, then the real-time /api/contributions
+ * response once it resolves. Levels 1-4 use GitHub's own dark-theme greens.
  */
 const LEVEL_BG = ["#161b22", "#0e4429", "#006d32", "#26a641", "#39d353"];
 
@@ -17,8 +18,7 @@ const MONTHS_LONG = [
 const WEEKDAYS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
 /** Label the column where a new month starts (skip labels that would collide, like GitHub). */
-function monthLabels() {
-  const { days } = contributionData;
+function monthLabels(days) {
   const labels = [];
   let lastCol = -Infinity;
   let prevMonth = -1; // sentinel so the very first column gets its own month
@@ -47,14 +47,31 @@ function tooltip([date, , count]) {
 }
 
 export default function ContributionGrid() {
-  const { days, total } = contributionData;
-  const labels = monthLabels();
+  const { days, total, live, fetchedAt } = useContributions();
+  const labels = monthLabels(days);
+  const updated = fetchedAt ? new Date(fetchedAt).toLocaleString() : null;
 
   return (
     <div>
-      <p className="mb-3 text-right text-xs text-ink-3">
-        <span className="font-semibold text-ink-2">{total.toLocaleString()}</span>{" "}
-        contributions in the last year
+      <p className="mb-3 flex flex-wrap items-center justify-end gap-x-3 gap-y-1 text-xs text-ink-3">
+        <span
+          className="inline-flex items-center gap-1.5"
+          title={
+            live
+              ? `Real-time from GitHub — updated ${updated}`
+              : "Showing the bundled snapshot; live data is unavailable right now"
+          }
+        >
+          <span
+            className={`size-1.5 rounded-full ${live ? "bg-emerald-live" : "bg-ink-3"}`}
+            aria-hidden="true"
+          />
+          {live ? "Live from GitHub" : "Snapshot"}
+        </span>
+        <span>
+          <span className="font-semibold text-ink-2">{total.toLocaleString()}</span>{" "}
+          contributions in the last year
+        </span>
       </p>
 
       <div className="overflow-x-auto pb-2">

@@ -257,6 +257,6 @@ export const skillCount = profile.skills.reduce((n, g) => n + g.items.length, 0)
 export const stats = [
   { value: "24", label: "Public repositories", plus: true },
   { value: String(profile.liveApps), label: "Live apps deployed", plus: true },
-  { value: String(contributionsData.total), label: "Contributions (last 12 mo)", plus: false },
+  { value: String(contributionsData.total), label: "Contributions (last 12 mo)", plus: false, live: "contributions" },
   { value: profile.lighthouse, label: "Lighthouse accessibility", plus: false },
 ];

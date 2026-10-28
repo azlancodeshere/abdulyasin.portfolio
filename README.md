@@ -22,8 +22,24 @@ npm install       # install deps
 npm run dev       # local dev server
 npm run build     # production build → dist/
 npm run preview   # serve the production build
-npm run sync      # refresh stars / live URLs from the GitHub API
+npm run sync      # refresh stars / live URLs + the contribution snapshot
 ```
+
+## Live contribution calendar
+
+The GitHub calendar on the site is **real-time**, not a baked-in image:
+
+- `api/contributions.js` (Vercel function) fetches
+  `github.com/users/azlancodeshere/contributions` server-side — the endpoint
+  is not CORS-enabled, so a browser cannot call it — parses it in
+  `scripts/lib/contributions.mjs` and returns `{ user, fetchedAt, total, days }`.
+  The CDN caches the response for 30 minutes.
+- `src/hooks/useContributions.js` paints `src/data/contributions.json` first
+  (the snapshot written by `npm run sync`), then swaps in the live payload and
+  flips the grid badge to "Live from GitHub". If the route is missing or fails,
+  the snapshot stays — the calendar is never empty.
+- `npm run dev` serves the same route through a middleware in `vite.config.js`,
+  so local pages show live data too.
 
 ## Keeping it in sync with GitHub
 
