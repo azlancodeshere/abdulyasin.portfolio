@@ -1,13 +1,3 @@
-/**
- * GitHub contribution calendar — fetch + parse, shared by three callers:
- *   - scripts/sync-github.mjs      (refreshes the bundled fallback snapshot)
- *   - api/contributions.js         (Vercel function → real-time JSON)
- *   - vite.config.js dev middleware (`npm run dev` serves the same route)
- *
- * Endpoint: github.com/users/<user>/contributions (public, no token).
- * Cells arrive column-major (row = weekday, column = week) with data-level
- * 0-4; the exact per-day counts live in the sr-only tooltips.
- */
 
 
 export const GITHUB_USER = "azlancodeshere";
@@ -29,7 +19,6 @@ export function parseContributionsHtml(html) {
     counts.set(`${row}-${col}`, m ? Number(m[1]) : 0);
   }
 
-  // Calendar order: one week (7 rows, Sunday-first) per column.
   cells.sort((a, b) => a.col - b.col || a.row - b.row);
   const days = cells.map((c) => [c.date, c.level, counts.get(`${c.row}-${c.col}`) ?? 0]);
   const total = days.reduce((sum, d) => sum + d[2], 0);

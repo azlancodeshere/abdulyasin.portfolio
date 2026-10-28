@@ -10,10 +10,6 @@ import Contact from "./components/Contact.jsx";
 import Footer from "./components/Footer.jsx";
 
 export default function App() {
-  // One observer drives every .reveal element on the page. Elements are also
-  // added later (e.g. project cards re-rendered by the category filter), so a
-  // MutationObserver keeps them in sync — otherwise they would stay at
-  // opacity: 0 forever.
   useEffect(() => {
     const all = () => document.querySelectorAll(".reveal");
 
@@ -42,7 +38,6 @@ export default function App() {
 
     all().forEach((n) => observer.observe(n));
 
-    // Reveal anything React mounts after the initial render.
     const mutations = new MutationObserver((records) => {
       records.forEach((record) => record.addedNodes.forEach(observe));
     });

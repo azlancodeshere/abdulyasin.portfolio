@@ -72,9 +72,7 @@ export default function Contact() {
       sub="I am actively looking for full-time opportunities, internships, and freelance projects. Let's discuss how I can contribute to your team."
     >
       <div className="grid gap-8 lg:grid-cols-[1fr_1.25fr]">
-        {/* Contact Info & Channels */}
         <div className="reveal space-y-6">
-          {/* Availability Card */}
           <div className="rounded-2xl border border-line bg-surface/90 p-6 shadow-md backdrop-blur-md">
             <div className="flex items-center gap-2.5 text-xs font-semibold text-emerald-live">
               <span className="relative flex size-2">
@@ -94,7 +92,6 @@ export default function Contact() {
             </div>
           </div>
 
-          {/* Direct Channels */}
           <div className="space-y-3">
             {contactLinks.map(({ label, value, href, icon: Icon, external, canCopy }) => (
               <div
@@ -148,7 +145,6 @@ export default function Contact() {
           </div>
         </div>
 
-        {/* Contact Form */}
         <div className="reveal" style={{ transitionDelay: "100ms" }}>
           <div className="rounded-2xl border border-line bg-surface/90 p-6 shadow-md backdrop-blur-md md:p-8">
             <h3 className="text-lg font-bold text-ink">Send a Direct Message</h3>

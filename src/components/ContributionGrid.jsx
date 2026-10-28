@@ -1,13 +1,5 @@
 import { useContributions } from "../hooks/useContributions.js";
 
-/**
- * Native GitHub-style contribution calendar.
- *
- * Data comes from useContributions(): the bundled snapshot in
- * src/data/contributions.json ([date, level, count] per day, Sunday-first,
- * oldest first) on first paint, then the real-time /api/contributions
- * response once it resolves. Levels 1-4 use GitHub's own dark-theme greens.
- */
 const LEVEL_BG = ["#161b22", "#0e4429", "#006d32", "#26a641", "#39d353"];
 
 const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
@@ -17,11 +9,10 @@ const MONTHS_LONG = [
 ];
 const WEEKDAYS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
-/** Label the column where a new month starts (skip labels that would collide, like GitHub). */
 function monthLabels(days) {
   const labels = [];
   let lastCol = -Infinity;
-  let prevMonth = -1; // sentinel so the very first column gets its own month
+  let prevMonth = -1; 
 
   days.forEach(([date], i) => {
     const month = Number(date.slice(5, 7)) - 1;
@@ -77,7 +68,6 @@ export default function ContributionGrid() {
       <div className="overflow-x-auto pb-2">
         <div className="min-w-[640px]">
           <div className="flex gap-2">
-            {/* Weekday labels */}
             <div className="flex flex-col gap-[3px] pt-[20px] text-[11px] leading-[10px] text-ink-3" aria-hidden="true">
               {WEEKDAYS.map((day, i) => (
                 <span key={day} className={i % 2 === 0 ? "invisible" : ""}>
@@ -87,7 +77,6 @@ export default function ContributionGrid() {
             </div>
 
             <div>
-              {/* Month labels */}
               <div className="relative mb-[6px] h-[14px]">
                 {labels.map(({ col, month }) => (
                   <span
@@ -100,7 +89,6 @@ export default function ContributionGrid() {
                 ))}
               </div>
 
-              {/* Calendar grid: one column per week, 7 rows Sunday-first */}
               <div
                 className="grid grid-flow-col grid-rows-7 gap-[3px]"
                 role="img"
@@ -123,7 +111,6 @@ export default function ContributionGrid() {
                 })}
               </div>
 
-              {/* Less / More legend */}
               <div className="mt-3 flex items-center justify-end gap-1.5 text-[11px] text-ink-3">
                 <span className="mr-1">Less</span>
                 {LEVEL_BG.map((color) => (

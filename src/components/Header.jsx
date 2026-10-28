@@ -14,7 +14,6 @@ export default function Header() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Scroll-spy: highlight the section currently in view.
   useEffect(() => {
     const ids = nav.map((n) => n.href.slice(1));
     const sections = ids.map((id) => document.getElementById(id)).filter(Boolean);
@@ -34,7 +33,6 @@ export default function Header() {
     return () => observer.disconnect();
   }, []);
 
-  // Close mobile menu on resize or Esc
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (e.key === "Escape") setMobileMenuOpen(false);
@@ -62,7 +60,6 @@ export default function Header() {
         aria-label="Main Navigation"
         className="wrap flex h-16 items-center justify-between gap-4"
       >
-        {/* Brand / Logo */}
         <a
           href="#top"
           className="group flex items-center gap-3 transition-opacity hover:opacity-90"
@@ -81,7 +78,6 @@ export default function Header() {
           </div>
         </a>
 
-        {/* Desktop Navigation Links */}
         <div className="hidden items-center gap-1 md:flex">
           <ul className="flex items-center gap-1 rounded-full border border-line bg-surface/60 p-1 backdrop-blur-md">
             {nav.map((item) => {
@@ -104,9 +100,7 @@ export default function Header() {
           </ul>
         </div>
 
-        {/* Right Action Buttons */}
         <div className="flex items-center gap-2">
-          {/* Status badge on desktop */}
           <div className="hidden items-center gap-1.5 rounded-full border border-line bg-surface/80 px-2.5 py-1 text-[11px] font-medium text-ink-2 lg:flex">
             <span className="relative flex size-2">
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-live opacity-75" />
@@ -125,7 +119,6 @@ export default function Header() {
             <span>Résumé</span>
           </a>
 
-          {/* Mobile hamburger toggle */}
           <button
             type="button"
             onClick={() => setMobileMenuOpen((o) => !o)}
@@ -142,7 +135,6 @@ export default function Header() {
         </div>
       </nav>
 
-      {/* Mobile Drawer Menu */}
       {mobileMenuOpen && (
         <div className="border-b border-line bg-page/95 px-4 pt-2 pb-6 backdrop-blur-xl md:hidden">
           <ul className="flex flex-col space-y-1">

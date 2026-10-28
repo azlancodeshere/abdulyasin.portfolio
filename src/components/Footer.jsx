@@ -9,7 +9,6 @@ export default function Footer() {
 
   return (
     <footer className="border-t border-line bg-subtle/80 backdrop-blur-md">
-      {/* Big closing statement */}
       <div className="wrap pt-16 pb-12 text-center">
         <p className="font-mono text-[11px] tracking-[0.22em] text-accent uppercase">
           {profile.openTo}
@@ -59,7 +58,6 @@ export default function Footer() {
 
       <div className="wrap pb-12">
         <div className="flex flex-col gap-8 md:flex-row md:items-center md:justify-between">
-          {/* Left: Branding & Status */}
           <div>
             <div className="flex items-center gap-2.5">
               <span className="flex size-7 items-center justify-center rounded-md border border-line bg-surface font-mono text-xs font-bold text-accent">
@@ -72,7 +70,6 @@ export default function Footer() {
             </p>
           </div>
 
-          {/* Center: Navigation Links */}
           <ul className="flex flex-wrap items-center gap-4 text-xs font-medium text-ink-2">
             {nav.map((item) => (
               <li key={item.href}>
@@ -83,7 +80,6 @@ export default function Footer() {
             ))}
           </ul>
 
-          {/* Right: Socials & Back to Top */}
           <div className="flex items-center gap-3">
             {[
               { href: profile.links.email, icon: Mail, label: "Email" },

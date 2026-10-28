@@ -1,7 +1,3 @@
-/**
- * Brand marks — lucide-react no longer ships logo icons.
- * Paths are the official 24×24 marks, drawn with `fill` (not stroke).
- */
 export function GithubIcon({ className = "size-4", ...props }) {
   return (
     <svg

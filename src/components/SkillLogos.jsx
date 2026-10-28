@@ -1,12 +1,3 @@
-/**
- * One logo per skill, rendered on a tile.
- *
- * Known brands come from `simple-icons` (official marks + their brand hex).
- * Brand colors are tuned for white backgrounds, so on our dark tiles they are
- * lightened just enough to stay legible (and pure-black marks — Next.js,
- * Vercel, Express… — are inverted to white, which is how they ship anyway).
- * Skills without a brand mark fall back to a lucide glyph in the accent color.
- */
 import { Boxes, Code2, Cookie, KeyRound, Layers, ShieldCheck, Waypoints } from "lucide-react";
 import {
   siAxios,
@@ -63,8 +54,7 @@ const GLYPHS = {
   "Role-Based Access": ShieldCheck,
 };
 
-/* --------------------------------------------------------------- contrast */
-const TILE_BG = "#141d30"; // --color-surface
+const TILE_BG = "#141d30"; 
 
 const toRgb = (hex) => [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16));
 const channel = (v) => {
@@ -76,10 +66,9 @@ const contrast = (l) => (l + 0.05) / (luminance(toRgb(TILE_BG)) + 0.05);
 const toHex = (rgb) =>
   `#${rgb.map((v) => Math.max(0, Math.min(255, v)).toString(16).padStart(2, "0")).join("")}`;
 
-/** Blend the brand color towards white until it clears 3.2:1 on the tile. */
 function readable(hex) {
   const rgb = toRgb(hex);
-  if (luminance(rgb) < 0.05) return "#f8fafc"; // black marks read as white on dark
+  if (luminance(rgb) < 0.05) return "#f8fafc"; 
 
   for (let t = 0; t <= 0.9; t += 0.15) {
     const mixed = rgb.map((v) => Math.round(v + (255 - v) * t));
@@ -88,7 +77,6 @@ function readable(hex) {
   return "#f8fafc";
 }
 
-/* ------------------------------------------------------------------ render */
 export function SkillLogo({ name, className = "size-7" }) {
   const brand = BRANDS[name];
   if (brand) {
