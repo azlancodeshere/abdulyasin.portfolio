@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ArrowUpRight, ExternalLink, FolderGit2, Star } from "lucide-react";
+import { ArrowUpRight, ChevronDown, Code2, ExternalLink, FolderGit2, Star } from "lucide-react";
 import { GithubIcon } from "./BrandIcons.jsx";
 import Section from "./Section.jsx";
 import { profile } from "../data/profile.js";
@@ -55,12 +55,12 @@ function ActionButtons({ live, code, stars }) {
 
 function CodePlaceholder({ name, category }) {
   return (
-    <div className="grid-bg flex aspect-video flex-col items-center justify-center rounded-lg border border-line bg-subtle p-4 text-center">
-      <FolderGit2 className="size-6 text-accent/60 mb-2" />
-      <span className="font-mono text-xs font-semibold text-ink">
+    <div className="grid-bg flex h-full w-full flex-col items-center justify-center bg-subtle p-4 text-center">
+      <FolderGit2 className="size-8 text-accent/50 mb-2" />
+      <span className="font-mono text-sm font-semibold text-ink">
         {name.toLowerCase().replace(/\s+/g, "-")}
       </span>
-      <span className="mt-1 text-[11px] text-ink-3">{category || "Full Stack Repo"}</span>
+      <span className="mt-1 text-[11px] text-ink-3">{category || "Open Source"}</span>
     </div>
   );
 }
@@ -96,6 +96,7 @@ function toCard(repo) {
 export default function Projects() {
   const { repos } = useGithub();
   const [filter, setFilter] = useState("All");
+  const [showAll, setShowAll] = useState(false);
 
   const byName = new Map(repos.map((r) => [r.name, r]));
 
@@ -229,17 +230,17 @@ export default function Projects() {
             More Web Apps & Architecture Builds
           </p>
 
-          <div className="mt-5 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {filteredOthers.map((p) => (
+          <div className="mt-5 grid gap-5 sm:grid-cols-2">
+            {(showAll ? filteredOthers : filteredOthers.slice(0, 4)).map((p) => (
               <article
                 key={p.repo}
-                className="reveal group flex flex-col overflow-hidden rounded-xl border border-line bg-surface transition-all hover:border-line-hi hover:bg-surface/90 hover:shadow-lg hover:-translate-y-1"
+                className="reveal group relative overflow-hidden rounded-2xl border border-line bg-subtle transition-all hover:border-line-hi hover:shadow-xl"
               >
                 <a
                   href={p.live || p.code}
                   target="_blank"
                   rel="noreferrer"
-                  className="relative block aspect-video w-full overflow-hidden border-b border-line bg-subtle"
+                  className="relative block aspect-video w-full overflow-hidden"
                   aria-label={`Open ${p.name}`}
                 >
                   {p.image ? (
@@ -250,38 +251,59 @@ export default function Projects() {
                       className="h-full w-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
                     />
                   ) : (
-                    <CodePlaceholder name={p.name} category={p.category} />
+                    <CodePlaceholder name={p.name} category={p.kind} />
                   )}
+
                   {p.category && (
-                    <span className="absolute top-2.5 left-2.5 rounded bg-page/85 px-2 py-0.5 font-mono text-[10px] font-semibold text-accent backdrop-blur-sm">
+                    <span className="absolute top-3 left-3 rounded-md bg-page/85 px-2 py-0.5 font-mono text-[10px] font-semibold text-accent backdrop-blur-sm">
                       {p.category}
                     </span>
                   )}
+
+                  <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-page via-page/70 to-transparent" />
+
+                  <div className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-3 p-4">
+                    <div className="min-w-0">
+                      <h3 className="truncate text-base font-bold text-ink transition-colors group-hover:text-accent">
+                        {p.name}
+                      </h3>
+                      <p className="mt-0.5 truncate text-[11px] text-ink-3">
+                        {p.kind}{typeof p.stars === "number" && p.stars > 0 ? ` · ★ ${p.stars}` : ""}
+                      </p>
+                    </div>
+                    <span className="flex shrink-0 items-center gap-1.5">
+                      {p.live && (
+                        <span className="inline-flex items-center gap-1 rounded-md bg-accent px-2 py-1 text-[10px] font-semibold text-page opacity-0 transition-opacity group-hover:opacity-100">
+                          <span>Live</span>
+                          <ArrowUpRight className="size-3" aria-hidden="true" />
+                        </span>
+                      )}
+                      <span className="inline-flex items-center justify-center rounded-md border border-line bg-page/80 p-1.5 text-ink-2 backdrop-blur-sm transition-colors group-hover:text-accent">
+                        <Code2 className="size-3.5" aria-hidden="true" />
+                      </span>
+                    </span>
+                  </div>
                 </a>
-
-                <div className="flex flex-1 flex-col p-5">
-                  <div className="flex items-center justify-between">
-                    <h3 className="text-base font-bold text-ink group-hover:text-accent transition-colors">
-                      {p.name}
-                    </h3>
-                    <span className="text-[11px] text-ink-3">{p.kind}</span>
-                  </div>
-
-                  <p className="mt-2 text-xs leading-relaxed text-ink-2 line-clamp-3">
-                    {p.blurb}
-                  </p>
-
-                  <div className="mt-4">
-                    <StackPills items={p.stack} />
-                  </div>
-
-                  <div className="mt-auto pt-4 border-t border-line/60">
-                    <ActionButtons live={p.live} code={p.code} stars={p.stars} />
-                  </div>
-                </div>
               </article>
             ))}
           </div>
+
+          {filteredOthers.length > 4 && (
+            <div className="mt-8 flex justify-center">
+              <button
+                type="button"
+                onClick={() => setShowAll((v) => !v)}
+                aria-expanded={showAll}
+                className="inline-flex items-center gap-2.5 rounded-full border border-line bg-surface/80 px-7 py-3.5 text-sm font-semibold text-ink shadow-lg backdrop-blur-sm transition-all hover:border-line-hi hover:bg-surface-hover hover:-translate-y-0.5"
+              >
+                <span>{showAll ? "Show fewer projects" : `View all projects (${filteredOthers.length})`}</span>
+                <ChevronDown
+                  className={`size-4 text-accent transition-transform duration-300 ${showAll ? "rotate-180" : ""}`}
+                  aria-hidden="true"
+                />
+              </button>
+            </div>
+          )}
         </div>
       )}
 
