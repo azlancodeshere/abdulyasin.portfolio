@@ -47,7 +47,3 @@ export function useGithub() {
     repos: data.repos,
   };
 }
-
-export function repoByName(repos) {
-  return new Map(repos.map((r) => [r.name, r]));
-}

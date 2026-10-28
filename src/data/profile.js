@@ -128,8 +128,6 @@ export const profile = {
     },
   ],
 
-  others: [],
-
   skills: [
     {
       group: "Languages",
