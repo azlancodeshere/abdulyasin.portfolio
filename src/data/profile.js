@@ -25,7 +25,7 @@ export const profile = {
     "I build full-stack web apps end to end — REST APIs, JWT auth and MongoDB on the backend, React and Tailwind on the front. Shipped live on Vercel.",
 
   summary:
-    "Full-Stack Web Developer with hands-on experience building real-world applications using React.js, TypeScript, Node.js, Express.js, MongoDB, and Tailwind CSS. Experienced in REST API development, authentication, role-based workflows, database integration, appointment scheduling, and responsive frontend development.",
+    "Full-Stack Web Developer with hands-on experience building real-world applications using React.js, TypeScript, Node.js, Express.js, PostgreSQL, MongoDB, and Tailwind CSS. Experienced in REST API development, authentication, role-based workflows, database integration, appointment scheduling, and responsive frontend development.",
 
   openTo: "Open to Full-Time roles, Internships and Collaborations.",
 
