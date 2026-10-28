@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import Header from "./components/Header.jsx";
 import Hero from "./components/Hero.jsx";
-import Experience from "./components/Experience.jsx";
+import Journey from "./components/Journey.jsx";
 import Projects from "./components/Projects.jsx";
 import Skills from "./components/Skills.jsx";
 import Contributions from "./components/Contributions.jsx";
@@ -49,7 +49,7 @@ export default function App() {
         <About />
         <Projects />
         <Skills />
-        <Experience />
+        <Journey />
         <Contributions />
         <Contact />
       </main>
