@@ -23,6 +23,7 @@
 
 import { readFile, writeFile } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
+import { fetchContributions } from "./lib/contributions.mjs";
 
 const USER = "azlancodeshere";
 const DATA_FILE = fileURLToPath(new URL("../src/data/profile.js", import.meta.url));
@@ -127,40 +128,14 @@ await writeFile(DATA_FILE, out, "utf8");
 // ---------------------------------------------------------------------------
 // Contribution calendar → src/data/contributions.json
 //
-// Fetched from GitHub's public profile endpoint (no token needed). The cells
-// arrive column-major (row = weekday, column = week) with data-level 0-4;
-// the exact per-day counts live in the sr-only tooltips.
+// The bundled fallback snapshot the site paints with before the live
+// /api/contributions response arrives. Fetch + parse live in
+// scripts/lib/contributions.mjs, shared with the Vercel function.
 // ---------------------------------------------------------------------------
 const CONTRIB_FILE = fileURLToPath(new URL("../src/data/contributions.json", import.meta.url));
 
 try {
-  const cres = await fetch(`https://github.com/users/${USER}/contributions`, {
-    headers: { "User-Agent": "portfolio-sync", Accept: "text/html" },
-  });
-  if (!cres.ok) throw new Error(`${cres.status} ${cres.statusText}`);
-  const html = await cres.text();
-
-  const cells = [
-    ...html.matchAll(
-      /data-date="(\d{4}-\d{2}-\d{2})" id="contribution-day-component-(\d+)-(\d+)" data-level="(\d)"/g,
-    ),
-  ].map(([, date, row, col, level]) => ({ date, row: +row, col: +col, level: +level }));
-
-  if (!cells.length) throw new Error("no contribution cells parsed");
-
-  const counts = new Map();
-  for (const [, row, col, text] of html.matchAll(
-    /for="contribution-day-component-(\d+)-(\d+)"[^>]*>([^<]+)</g,
-  )) {
-    const m = text.trim().match(/^(\d+) contributions?/);
-    counts.set(`${row}-${col}`, m ? Number(m[1]) : 0);
-  }
-
-  // Calendar order: one week (7 rows, Sunday-first) per column.
-  cells.sort((a, b) => a.col - b.col || a.row - b.row);
-  const days = cells.map((c) => [c.date, c.level, counts.get(`${c.row}-${c.col}`) ?? 0]);
-  const total = days.reduce((sum, d) => sum + d[2], 0);
-
+  const { days, total } = await fetchContributions(USER);
   await writeFile(CONTRIB_FILE, `${JSON.stringify({ user: USER, total, days })}\n`, "utf8");
   console.log(`  ◧ contributions: ${days.length} days, ${total} total`);
 } catch (err) {
