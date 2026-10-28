@@ -13,6 +13,7 @@ import {
   siNextdotjs,
   siNodedotjs,
   siNpm,
+  siPostgresql,
   siPostman,
   siReact,
   siReactrouter,
@@ -36,6 +37,7 @@ const BRANDS = {
   "Express.js": siExpress,
   MongoDB: siMongodb,
   Mongoose: siMongoose,
+  PostgreSQL: siPostgresql,
   JWT: siJsonwebtokens,
   Git: siGit,
   GitHub: siGithub,
@@ -56,7 +58,10 @@ const GLYPHS = {
 
 const TILE_BG = "#141d30"; 
 
-const toRgb = (hex) => [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16));
+const toRgb = (hex) => {
+  const h = hex.replace("#", "");
+  return [0, 2, 4].map((i) => parseInt(h.slice(i, i + 2), 16));
+};
 const channel = (v) => {
   const s = v / 255;
   return s <= 0.03928 ? s / 12.92 : ((s + 0.055) / 1.055) ** 2.4;

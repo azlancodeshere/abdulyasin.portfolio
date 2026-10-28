@@ -162,6 +162,7 @@ export const profile = {
       items: [
         { name: "MongoDB", note: "Primary NoSQL DB" },
         { name: "Mongoose", note: "Schema & validation" },
+        { name: "PostgreSQL", note: "Relational SQL DB" },
         { name: "Data Modeling", note: "Collections design" },
       ],
     },
