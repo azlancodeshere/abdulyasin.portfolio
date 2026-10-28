@@ -8,6 +8,10 @@
  *   - stars     (stargazers_count)
  *   - live      (homepage, when the repo gains a deployment)
  *
+ * It also refreshes src/data/contributions.json — the contribution calendar
+ * rendered by src/components/ContributionGrid.jsx — from GitHub's public
+ * contributions endpoint (no token needed).
+ *
  * Everything else (copy, skills, links) is hand-written in src/data/profile.js
  * so the site stays aligned with the GitHub profile, resume and LinkedIn.
  *
@@ -90,7 +94,12 @@ for (let i = 0; i < markers.length; i += 1) {
     const codeOffset = beforeRepo.search(/code:/);
     if (codeOffset !== -1) {
       const at = regionStart + codeOffset;
-      const indent = (beforeRepo.match(/^\s*/m) || ["      "])[0];
+      // Indentation of the `code:` line we are inserting in front of. The
+      // region starts mid-line (at the previous `repo:` marker), so match on
+      // the slice directly instead of `^\s*`, which would return "".
+      const lineStart = beforeRepo.lastIndexOf("\n", codeOffset - 1) + 1;
+      const rawIndent = beforeRepo.slice(lineStart, codeOffset);
+      const indent = /^[ \t]*$/.test(rawIndent) ? rawIndent : "      ";
       edits.push({
         start: at,
         end: at,
@@ -114,6 +123,49 @@ if (updated === 0) {
 }
 
 await writeFile(DATA_FILE, out, "utf8");
+
+// ---------------------------------------------------------------------------
+// Contribution calendar → src/data/contributions.json
+//
+// Fetched from GitHub's public profile endpoint (no token needed). The cells
+// arrive column-major (row = weekday, column = week) with data-level 0-4;
+// the exact per-day counts live in the sr-only tooltips.
+// ---------------------------------------------------------------------------
+const CONTRIB_FILE = fileURLToPath(new URL("../src/data/contributions.json", import.meta.url));
+
+try {
+  const cres = await fetch(`https://github.com/users/${USER}/contributions`, {
+    headers: { "User-Agent": "portfolio-sync", Accept: "text/html" },
+  });
+  if (!cres.ok) throw new Error(`${cres.status} ${cres.statusText}`);
+  const html = await cres.text();
+
+  const cells = [
+    ...html.matchAll(
+      /data-date="(\d{4}-\d{2}-\d{2})" id="contribution-day-component-(\d+)-(\d+)" data-level="(\d)"/g,
+    ),
+  ].map(([, date, row, col, level]) => ({ date, row: +row, col: +col, level: +level }));
+
+  if (!cells.length) throw new Error("no contribution cells parsed");
+
+  const counts = new Map();
+  for (const [, row, col, text] of html.matchAll(
+    /for="contribution-day-component-(\d+)-(\d+)"[^>]*>([^<]+)</g,
+  )) {
+    const m = text.trim().match(/^(\d+) contributions?/);
+    counts.set(`${row}-${col}`, m ? Number(m[1]) : 0);
+  }
+
+  // Calendar order: one week (7 rows, Sunday-first) per column.
+  cells.sort((a, b) => a.col - b.col || a.row - b.row);
+  const days = cells.map((c) => [c.date, c.level, counts.get(`${c.row}-${c.col}`) ?? 0]);
+  const total = days.reduce((sum, d) => sum + d[2], 0);
+
+  await writeFile(CONTRIB_FILE, `${JSON.stringify({ user: USER, total, days })}\n`, "utf8");
+  console.log(`  ◧ contributions: ${days.length} days, ${total} total`);
+} catch (err) {
+  console.warn(`  ! contribution sync failed (kept previous data): ${err.message}`);
+}
 
 console.log(`\nChecked ${updated} project(s), ${edits.length} field(s) changed${missing ? `, ${missing} missing` : ""}.`);
 console.log(edits.length ? "Run `npm run build` to verify before deploying." : "Already up to date.");
