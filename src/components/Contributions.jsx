@@ -1,5 +1,6 @@
 import { ArrowUpRight, GitCommit, GitFork, GitPullRequest } from "lucide-react";
 import { GithubIcon } from "./BrandIcons.jsx";
+import ContributionGrid from "./ContributionGrid.jsx";
 import Section from "./Section.jsx";
 import { profile } from "../data/profile.js";
 
@@ -8,7 +9,8 @@ export default function Contributions() {
     <Section
       id="contributions"
       kicker="Open Source & Activity"
-      heading="GitHub Contributions"
+      heading="GitHub"
+      heading2="Contributions"
       sub={`Continuous code activity and public repositories maintained at github.com/${profile.github}.`}
     >
       <div className="reveal overflow-hidden rounded-2xl border border-line bg-surface/90 p-6 shadow-md md:p-7">
@@ -35,15 +37,8 @@ export default function Contributions() {
         </div>
 
         {/* GitHub Graph */}
-        <div className="mt-6 overflow-x-auto py-2">
-          <div className="min-w-[680px]">
-            <img
-              src={`https://ghchart.rshah.org/38bdf8/${profile.github}`}
-              alt={`GitHub contribution chart for ${profile.github}`}
-              loading="lazy"
-              className="w-full rounded-lg"
-            />
-          </div>
+        <div className="mt-6 py-2">
+          <ContributionGrid />
         </div>
 
         {/* Highlights footer */}
