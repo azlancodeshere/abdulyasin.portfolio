@@ -1,29 +1,9 @@
 #!/usr/bin/env node
-/**
- * Refresh the portfolio's GitHub-derived fields.
- *
- *   npm run sync
- *
- * Re-reads github.com/azlancodeshere and updates, for every project card:
- *   - stars     (stargazers_count)
- *   - live      (homepage, when the repo gains a deployment)
- *
- * It also refreshes src/data/contributions.json — the contribution calendar
- * rendered by src/components/ContributionGrid.jsx — from GitHub's public
- * contributions endpoint (no token needed).
- *
- * Everything else (copy, skills, links) is hand-written in src/data/profile.js
- * so the site stays aligned with the GitHub profile, resume and LinkedIn.
- *
- * Layout note: inside each project object the fields read
- *   ... live: (optional) ... code: ... repo: "name", stars: N ...
- * so a project's `live:` always sits between its predecessor's `repo:` and its
- * own `repo:` — that is how the two fields are located independently.
- */
 
 import { readFile, writeFile } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 import { fetchContributions } from "./lib/contributions.mjs";
+import { fetchGithub } from "./lib/github.mjs";
 
 const USER = "azlancodeshere";
 const DATA_FILE = fileURLToPath(new URL("../src/data/profile.js", import.meta.url));
@@ -41,8 +21,6 @@ const repos = await res.json();
 const byName = new Map(repos.map((r) => [r.name, r]));
 const source = await readFile(DATA_FILE, "utf8");
 
-// Locate every `repo: "name",` marker up front (offsets stay valid while we
-// patch from the end of the file backwards).
 const markers = [...source.matchAll(/repo:\s*"([^"]+)",/g)].map((m) => ({
   name: m[1],
   start: m.index,
@@ -50,7 +28,7 @@ const markers = [...source.matchAll(/repo:\s*"([^"]+)",/g)].map((m) => ({
 
 let updated = 0;
 let missing = 0;
-const edits = []; // { start, end, text }
+const edits = []; 
 
 for (let i = 0; i < markers.length; i += 1) {
   const { name, start } = markers[i];
@@ -67,7 +45,6 @@ for (let i = 0; i < markers.length; i += 1) {
   const afterRepo = source.slice(start, regionEnd);
   const beforeRepo = source.slice(regionStart, start);
 
-  // --- stars (always the line right after `repo:`) ------------------------
   const starsMatch = afterRepo.match(/stars:\s*(\d+)/);
   if (starsMatch) {
     const next = gh.stargazers_count ?? 0;
@@ -79,7 +56,6 @@ for (let i = 0; i < markers.length; i += 1) {
     }
   }
 
-  // --- live url -----------------------------------------------------------
   const homepage = gh.homepage ? gh.homepage.trim() : "";
   const liveMatch = beforeRepo.match(/live:\s*"([^"]*)"/);
 
@@ -91,13 +67,9 @@ for (let i = 0; i < markers.length; i += 1) {
       console.log(`  ↗ ${name}: ${liveMatch[1] || "(none)"} → ${homepage}`);
     }
   } else if (!liveMatch && homepage) {
-    // Repo gained a homepage since the card was written — add the link.
     const codeOffset = beforeRepo.search(/code:/);
     if (codeOffset !== -1) {
       const at = regionStart + codeOffset;
-      // Indentation of the `code:` line we are inserting in front of. The
-      // region starts mid-line (at the previous `repo:` marker), so match on
-      // the slice directly instead of `^\s*`, which would return "".
       const lineStart = beforeRepo.lastIndexOf("\n", codeOffset - 1) + 1;
       const rawIndent = beforeRepo.slice(lineStart, codeOffset);
       const indent = /^[ \t]*$/.test(rawIndent) ? rawIndent : "      ";
@@ -113,7 +85,6 @@ for (let i = 0; i < markers.length; i += 1) {
   updated += 1;
 }
 
-// Apply from the end backwards so earlier offsets stay valid.
 edits.sort((a, b) => b.start - a.start);
 let out = source;
 for (const e of edits) out = out.slice(0, e.start) + e.text + out.slice(e.end);
@@ -125,13 +96,6 @@ if (updated === 0) {
 
 await writeFile(DATA_FILE, out, "utf8");
 
-// ---------------------------------------------------------------------------
-// Contribution calendar → src/data/contributions.json
-//
-// The bundled fallback snapshot the site paints with before the live
-// /api/contributions response arrives. Fetch + parse live in
-// scripts/lib/contributions.mjs, shared with the Vercel function.
-// ---------------------------------------------------------------------------
 const CONTRIB_FILE = fileURLToPath(new URL("../src/data/contributions.json", import.meta.url));
 
 try {
@@ -140,6 +104,18 @@ try {
   console.log(`  ◧ contributions: ${days.length} days, ${total} total`);
 } catch (err) {
   console.warn(`  ! contribution sync failed (kept previous data): ${err.message}`);
+}
+
+const GITHUB_FILE = fileURLToPath(new URL("../src/data/github.json", import.meta.url));
+
+try {
+  const gh = await fetchGithub();
+  await writeFile(GITHUB_FILE, `${JSON.stringify(gh)}\n`, "utf8");
+  console.log(
+    `  ◧ github: ${gh.public_repos} repos, ${gh.stars} stars, ${gh.liveApps} live apps, ${gh.followers} followers, ${gh.repos.length} listed`,
+  );
+} catch (err) {
+  console.warn(`  ! github stats sync failed (kept previous data): ${err.message}`);
 }
 
 console.log(`\nChecked ${updated} project(s), ${edits.length} field(s) changed${missing ? `, ${missing} missing` : ""}.`);

@@ -1,5 +1,6 @@
 import { Calendar, GitFork, GraduationCap, Rocket, Sparkles } from "lucide-react";
 import Section from "./Section.jsx";
+import { useGithub } from "../hooks/useGithub.js";
 import { profile } from "../data/profile.js";
 
 const tagIcon = {
@@ -10,6 +11,8 @@ const tagIcon = {
 };
 
 export default function Journey() {
+  const { publicRepos } = useGithub();
+
   return (
     <Section
       id="experience"
@@ -21,9 +24,9 @@ export default function Journey() {
       <div className="relative border-l-2 border-line/80 ml-3 pl-6 space-y-8 md:ml-4 md:pl-8">
         {profile.journey.map((item) => {
           const Icon = tagIcon[item.tag] || Sparkles;
+          const title = item.tag === "Open Source" ? `${publicRepos} Public Repositories` : item.title;
           return (
             <div key={item.title} className="reveal relative group">
-              {/* Timeline icon bullet */}
               <span className="absolute -left-[35px] md:-left-[43px] top-1.5 flex size-7 items-center justify-center rounded-full border-2 border-accent bg-page text-accent shadow-sm transition-colors group-hover:bg-accent group-hover:text-page">
                 <Icon className="size-3.5" aria-hidden="true" />
               </span>
@@ -41,7 +44,7 @@ export default function Journey() {
                 </div>
 
                 <h3 className="mt-3 text-xl font-bold text-ink group-hover:text-accent transition-colors">
-                  {item.title}
+                  {title}
                 </h3>
                 <p className="mt-1 text-sm font-medium text-ink-2">{item.org}</p>
                 <p className="mt-3 text-sm leading-relaxed text-ink-3">{item.desc}</p>

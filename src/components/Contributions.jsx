@@ -1,10 +1,19 @@
-import { ArrowUpRight, GitCommit, GitFork, GitPullRequest } from "lucide-react";
+import { ArrowUpRight, GitFork, Star, Users } from "lucide-react";
 import { GithubIcon } from "./BrandIcons.jsx";
 import ContributionGrid from "./ContributionGrid.jsx";
 import Section from "./Section.jsx";
+import { useGithub } from "../hooks/useGithub.js";
 import { profile } from "../data/profile.js";
 
 export default function Contributions() {
+  const { publicRepos, stars, followers } = useGithub();
+
+  const highlights = [
+    { icon: GitFork, label: `${publicRepos} Public Repositories` },
+    { icon: Star, label: `${stars} Stars Earned` },
+    { icon: Users, label: `${followers} Followers` },
+  ];
+
   return (
     <Section
       id="contributions"
@@ -36,25 +45,17 @@ export default function Contributions() {
           </a>
         </div>
 
-        {/* GitHub Graph */}
         <div className="mt-6 py-2">
           <ContributionGrid />
         </div>
 
-        {/* Highlights footer */}
         <div className="mt-6 grid grid-cols-2 gap-3 border-t border-line/60 pt-5 sm:grid-cols-3 text-xs">
-          <div className="flex items-center gap-2 text-ink-2">
-            <GitCommit className="size-4 text-accent" />
-            <span>Regular Commits to Main</span>
-          </div>
-          <div className="flex items-center gap-2 text-ink-2">
-            <GitPullRequest className="size-4 text-accent" />
-            <span>Production Vercel Deploys</span>
-          </div>
-          <div className="flex items-center gap-2 text-ink-2">
-            <GitFork className="size-4 text-accent" />
-            <span>24+ Public Repositories</span>
-          </div>
+          {highlights.map(({ icon: Icon, label }) => (
+            <div key={label} className="flex items-center gap-2 text-ink-2">
+              <Icon className="size-4 text-accent" />
+              <span>{label}</span>
+            </div>
+          ))}
         </div>
       </div>
     </Section>

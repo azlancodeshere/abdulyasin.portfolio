@@ -1,6 +1,7 @@
 import { ArrowDown, ArrowUpRight, Download, Mail } from "lucide-react";
 import { GithubIcon, LinkedinIcon } from "./BrandIcons.jsx";
 import { useContributions } from "../hooks/useContributions.js";
+import { useGithub } from "../hooks/useGithub.js";
 import { profile, stats } from "../data/profile.js";
 
 const socials = [
@@ -12,20 +13,19 @@ const socials = [
 const coreTech = ["React.js", "Next.js", "TypeScript", "Node.js", "Express", "MongoDB", "Tailwind CSS"];
 
 export default function Hero() {
-  // Keeps the contributions stat in step with the live calendar below.
   const { total: contributions } = useContributions();
+  const { publicRepos, liveApps } = useGithub();
+
+  const liveValues = { repos: publicRepos, liveApps, contributions };
 
   return (
     <section id="top" className="relative overflow-hidden pt-12 pb-16 md:pt-20 md:pb-24">
-      {/* Background ambient lighting */}
       <div className="radial-glow pointer-events-none absolute inset-x-0 top-0 h-[500px]" aria-hidden="true" />
       <div className="grid-bg pointer-events-none absolute inset-x-0 top-0 h-[480px]" aria-hidden="true" />
 
       <div className="wrap relative">
         <div className="grid items-center gap-10 lg:grid-cols-[1.35fr_1fr] lg:gap-12">
-          {/* Left Column: Introductions & CTAs */}
           <div>
-            {/* Status Pill */}
             <div className="reveal inline-flex items-center gap-2 rounded-full border border-line bg-surface/80 px-3.5 py-1.5 text-xs text-ink-2 shadow-sm backdrop-blur-sm">
               <span className="relative flex size-2">
                 <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-live opacity-75" />
@@ -34,7 +34,6 @@ export default function Hero() {
               <span className="font-medium text-ink-2">Available for Full-time Roles & Internships</span>
             </div>
 
-            {/* Main Headline */}
             <div className="reveal mt-5">
               <h1 className="text-3xl font-extrabold tracking-tight text-ink sm:text-5xl md:text-6xl md:leading-[1.12]">
                 Hi, I&rsquo;m <span className="text-accent">{profile.name}</span>.
@@ -48,7 +47,6 @@ export default function Hero() {
               </p>
             </div>
 
-            {/* Core Tech Stack Badges */}
             <div className="reveal mt-6 flex flex-wrap items-center gap-2" style={{ transitionDelay: "100ms" }}>
               <span className="text-xs font-semibold tracking-wider text-ink-3 uppercase">Stack:</span>
               {coreTech.map((tech) => (
@@ -61,7 +59,6 @@ export default function Hero() {
               ))}
             </div>
 
-            {/* CTA Buttons */}
             <div
               className="reveal mt-8 flex flex-wrap items-center gap-3"
               style={{ transitionDelay: "180ms" }}
@@ -93,7 +90,6 @@ export default function Hero() {
               </a>
             </div>
 
-            {/* Quick Social Links */}
             <div
               className="reveal mt-8 flex flex-wrap items-center gap-3 border-t border-line pt-6"
               style={{ transitionDelay: "240ms" }}
@@ -117,10 +113,8 @@ export default function Hero() {
             </div>
           </div>
 
-          {/* Right Column: Profile Card with Visual Aesthetics */}
           <div className="reveal flex justify-center lg:justify-end" style={{ transitionDelay: "120ms" }}>
             <div className="relative w-full max-w-sm rounded-2xl border border-line bg-surface/90 p-5 shadow-2xl backdrop-blur-md">
-              {/* Subtle top badge */}
               <div className="flex items-center justify-between border-b border-line pb-4">
                 <div className="flex items-center gap-2.5">
                   <span className="relative flex size-2.5">
@@ -134,7 +128,6 @@ export default function Hero() {
                 </span>
               </div>
 
-              {/* Avatar + Quick Info */}
               <div className="mt-5 flex items-center gap-4">
                 <div className="relative">
                   <img
@@ -155,17 +148,15 @@ export default function Hero() {
                 </div>
               </div>
 
-              {/* Bio summary */}
               <p className="mt-4 rounded-lg border border-line bg-subtle p-3 text-xs leading-relaxed text-ink-2">
                 Specializing in React, Next.js, Node.js, Express, and MongoDB. Passionate about performant backend architecture and polished interfaces.
               </p>
 
-              {/* Quick Spec Highlights */}
               <div className="mt-4 grid grid-cols-2 gap-2 text-xs">
                 <div className="rounded-lg border border-line bg-subtle/70 p-2.5">
                   <span className="block text-[11px] text-ink-3">Live Projects</span>
                   <span className="font-mono text-sm font-bold text-ink">
-                    {profile.liveApps} Apps Shipped
+                    {liveApps} Apps Shipped
                   </span>
                 </div>
                 <div className="rounded-lg border border-line bg-subtle/70 p-2.5">
@@ -177,7 +168,6 @@ export default function Hero() {
           </div>
         </div>
 
-        {/* Highlight Stats Bar */}
         <div
           className="reveal mt-14 grid grid-cols-2 gap-3 sm:grid-cols-4 md:mt-18"
           style={{ transitionDelay: "260ms" }}
@@ -188,7 +178,7 @@ export default function Hero() {
               className="group rounded-xl border border-line bg-surface/80 p-4 transition-all hover:border-line-hi hover:bg-surface hover:-translate-y-0.5"
             >
               <div className="font-mono text-2xl font-extrabold text-ink group-hover:text-accent md:text-3xl">
-                {s.live === "contributions" ? contributions : s.value}
+                {s.live ? liveValues[s.live] : s.value}
                 {s.plus && <span className="text-accent">+</span>}
               </div>
               <div className="mt-1 text-xs font-medium text-ink-3">{s.label}</div>

@@ -3,11 +3,12 @@ import { ArrowUpRight, ExternalLink, FolderGit2, Star } from "lucide-react";
 import { GithubIcon } from "./BrandIcons.jsx";
 import Section from "./Section.jsx";
 import { profile } from "../data/profile.js";
+import { useGithub } from "../hooks/useGithub.js";
 
 function StackPills({ items }) {
   return (
     <ul className="flex flex-wrap gap-1.5">
-      {items.map((t) => (
+      {(items.length ? items : ["GitHub"]).map((t) => (
         <li
           key={t}
           className="rounded-md border border-line bg-subtle px-2 py-0.5 font-mono text-[11px] font-medium text-ink-2"
@@ -64,27 +65,59 @@ function CodePlaceholder({ name, category }) {
   );
 }
 
-const CATEGORY_ORDER = ["Frontend", "Full Stack", "Backend"];
+const CATEGORY_RULES = [
+  { category: "Full Stack", pattern: /full.?stack|mern|ecommerce|hospital|booking|ticket|chat|uber|inventory|notes|hire|surhires|store/i },
+  { category: "Backend", pattern: /api|backend|server|express|node|django|rest|auth|database|mongo|remainder|reminder/i },
+  { category: "Frontend", pattern: /react|next|ui|ux|figma|landing|portfolio|gallery|frontend|css/i },
+];
 
-// Keep the tabs in sync with the data: a category that no longer has any
-// projects (they all moved to `featured`) must not show up as a dead tab.
-const CATEGORIES = (() => {
-  const existing = new Set(
-    [...profile.featured, ...profile.others].map((p) => p.category).filter(Boolean),
-  );
-  const ordered = CATEGORY_ORDER.filter((c) => existing.has(c));
-  const rest = [...existing].filter((c) => !CATEGORY_ORDER.includes(c));
-  return ["All", ...ordered, ...rest];
-})();
+function deriveCategory(repo) {
+  const haystack = `${repo.name} ${repo.description} ${(repo.topics || []).join(" ")}`;
+  const match = CATEGORY_RULES.find((r) => r.pattern.test(haystack));
+  return match ? match.category : repo.language ? "Full Stack" : "Tools";
+}
+
+function toCard(repo) {
+  const category = deriveCategory(repo);
+  return {
+    name: repo.name,
+    repo: repo.name,
+    category,
+    kind: repo.language || "Open Source",
+    blurb: repo.description || "Public repository maintained on GitHub.",
+    stack: [repo.language, ...(repo.topics || [])].filter(Boolean).slice(0, 5),
+    live: repo.homepage || null,
+    code: repo.url,
+    stars: repo.stars,
+    image: null,
+  };
+}
 
 export default function Projects() {
-  const { featured, others } = profile;
+  const { repos } = useGithub();
   const [filter, setFilter] = useState("All");
 
-  const filterFn = (p) => {
-    if (filter === "All") return true;
-    return p.category === filter;
+  const byName = new Map(repos.map((r) => [r.name, r]));
+
+  const liveVersion = (p) => {
+    const gh = byName.get(p.repo);
+    return gh
+      ? { ...p, stars: gh.stars, live: gh.homepage || p.live }
+      : p;
   };
+
+  const featured = profile.featured.map(liveVersion);
+  const handWrittenOthers = profile.others.map(liveVersion);
+  const known = new Set(profile.featured.concat(profile.others).map((p) => p.repo));
+  const fromGithub = repos
+    .filter((r) => !known.has(r.name) && (r.description || r.homepage || r.language))
+    .sort((a, b) => new Date(b.pushedAt) - new Date(a.pushedAt))
+    .map(toCard);
+
+  const others = [...handWrittenOthers, ...fromGithub];
+
+  const categories = ["All", ...new Set([...featured, ...others].map((p) => p.category).filter(Boolean))];
+  const filterFn = (p) => filter === "All" || p.category === filter;
 
   const filteredFeatured = featured.filter(filterFn);
   const filteredOthers = others.filter(filterFn);
@@ -97,10 +130,9 @@ export default function Projects() {
       heading2="Projects"
       sub="Production web applications, full-stack platforms, and developer tooling I've engineered and shipped."
     >
-      {/* Category Filter Tabs */}
       <div className="reveal flex flex-wrap items-center justify-between gap-4 border-b border-line pb-4">
-        <div className="flex items-center gap-1.5 rounded-lg border border-line bg-surface/80 p-1">
-          {CATEGORIES.map((cat) => (
+        <div className="flex flex-wrap items-center gap-1.5 rounded-lg border border-line bg-surface/80 p-1">
+          {categories.map((cat) => (
             <button
               key={cat}
               type="button"
@@ -117,11 +149,10 @@ export default function Projects() {
         </div>
 
         <span className="text-xs font-medium text-ink-3">
-          Showing {filteredFeatured.length + filteredOthers.length} projects
+          Showing {filteredFeatured.length + filteredOthers.length} projects · synced with GitHub
         </span>
       </div>
 
-      {/* Featured Production Work */}
       {filteredFeatured.length > 0 && (
         <div className="mt-6 space-y-6">
           <p className="font-mono text-xs font-semibold tracking-wider text-accent uppercase">
@@ -134,7 +165,6 @@ export default function Projects() {
                 key={p.repo}
                 className="reveal group overflow-hidden rounded-2xl border border-line bg-surface/90 shadow-md transition-all hover:border-line-hi hover:shadow-xl lg:grid lg:grid-cols-[1.2fr_1fr]"
               >
-                {/* Left: Content */}
                 <div className="flex flex-col justify-between p-6 sm:p-7">
                   <div>
                     <div className="flex flex-wrap items-center gap-2">
@@ -166,7 +196,6 @@ export default function Projects() {
                   </div>
                 </div>
 
-                {/* Right: Project Screenshot Preview */}
                 <div className="relative flex items-center justify-center overflow-hidden border-t border-line bg-subtle lg:border-t-0 lg:border-l">
                   <a
                     href={p.live || p.code}
@@ -194,7 +223,6 @@ export default function Projects() {
         </div>
       )}
 
-      {/* Other Builds Grid */}
       {filteredOthers.length > 0 && (
         <div className="mt-12">
           <p className="font-mono text-xs font-semibold tracking-wider text-ink-3 uppercase">
@@ -207,7 +235,6 @@ export default function Projects() {
                 key={p.repo}
                 className="reveal group flex flex-col overflow-hidden rounded-xl border border-line bg-surface transition-all hover:border-line-hi hover:bg-surface/90 hover:shadow-lg hover:-translate-y-1"
               >
-                {/* Thumbnail Preview */}
                 <a
                   href={p.live || p.code}
                   target="_blank"
@@ -232,7 +259,6 @@ export default function Projects() {
                   )}
                 </a>
 
-                {/* Card Body */}
                 <div className="flex flex-1 flex-col p-5">
                   <div className="flex items-center justify-between">
                     <h3 className="text-base font-bold text-ink group-hover:text-accent transition-colors">
@@ -258,7 +284,7 @@ export default function Projects() {
           </div>
         </div>
       )}
-      {/* Empty state — a filter that matches nothing should say so */}
+
       {filteredFeatured.length + filteredOthers.length === 0 && (
         <p className="reveal mt-6 rounded-xl border border-dashed border-line bg-surface/40 px-5 py-8 text-center text-sm text-ink-3">
           No projects in this category yet — choose &ldquo;All&rdquo; to see everything.
@@ -267,4 +293,3 @@ export default function Projects() {
     </Section>
   );
 }
-

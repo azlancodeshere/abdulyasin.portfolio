@@ -1,6 +1,7 @@
 import { ArrowUpRight, Download, Code2, Server, Database, ShieldCheck } from "lucide-react";
 import { GithubIcon, LinkedinIcon } from "./BrandIcons.jsx";
 import Section from "./Section.jsx";
+import { useGithub } from "../hooks/useGithub.js";
 import { profile } from "../data/profile.js";
 
 const pillars = [
@@ -27,6 +28,8 @@ const pillars = [
 ];
 
 export default function About() {
+  const { publicRepos, liveApps } = useGithub();
+
   return (
     <Section
       id="about"
@@ -36,7 +39,6 @@ export default function About() {
       sub="A computer science student building practical, production-ready web applications."
     >
       <div className="grid gap-10 lg:grid-cols-[1.3fr_1fr]">
-        {/* Left Side: Story & Pillars */}
         <div className="reveal">
           <div className="space-y-4 text-base leading-relaxed text-ink-2">
             <p>
@@ -46,11 +48,10 @@ export default function About() {
               My focus is on creating end-to-end applications where intuitive, accessible frontends meet reliable backend services. Rather than building throwaway toys, I focus on shipping real software — from recruitment boards and AI note apps to inventory management systems.
             </p>
             <p>
-              I have published <strong className="font-semibold text-ink">24+ repositories</strong> and deployed <strong className="font-semibold text-ink">{profile.liveApps}+ live web apps</strong> on Vercel. I care deeply about clean code, Lighthouse performance scores, and user privacy.
+              I have published <strong className="font-semibold text-ink">{publicRepos} repositories</strong> and deployed <strong className="font-semibold text-ink">{liveApps} live web apps</strong> on Vercel. I care deeply about clean code, Lighthouse performance scores, and user privacy.
             </p>
           </div>
 
-          {/* 4 Pillars */}
           <div className="mt-8 grid gap-3 sm:grid-cols-2">
             {pillars.map(({ icon: Icon, title, desc }) => (
               <div
@@ -68,7 +69,6 @@ export default function About() {
             ))}
           </div>
 
-          {/* Action CTAs */}
           <div className="mt-8 flex flex-wrap gap-3">
             <a
               href={profile.resume}
@@ -98,7 +98,6 @@ export default function About() {
           </div>
         </div>
 
-        {/* Right Side: Profile Summary Card */}
         <aside className="reveal" style={{ transitionDelay: "120ms" }}>
           <div className="sticky top-24 overflow-hidden rounded-2xl border border-line bg-surface/90 shadow-xl backdrop-blur-md">
             <div className="relative aspect-4/3 w-full overflow-hidden bg-subtle">

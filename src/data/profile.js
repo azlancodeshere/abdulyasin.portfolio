@@ -1,17 +1,6 @@
-/**
- * Single source of truth for the portfolio.
- *
- * Everything on the site is rendered from this file, and its values are kept
- * aligned with three places:
- *   1. GitHub profile  -> github.com/azlancodeshere  (name, bio, links, repos)
- *   2. Resume (v8)     -> Abdul_Yasin_Resume_Dev_v8.docx  (summary, skills, education)
- *   3. LinkedIn        -> linkedin.com/in/abdulyasin-devstack
- *
- * Repo-derived fields (stars, homepage, description) can be refreshed with:
- *   npm run sync
- */
 
 import contributionsData from "./contributions.json";
+import githubData from "./github.json";
 
 const REPO = "https://github.com/azlancodeshere";
 
@@ -22,7 +11,6 @@ export const profile = {
   role: "Full Stack Developer",
   roleLine: "Full Stack Developer · Backend Focused · Builder",
   location: "India 🇮🇳",
-  // Same portrait as the GitHub profile so everything matches.
   avatar: "https://avatars.githubusercontent.com/u/250402182?v=4",
 
   email: "azlan.codes@gmail.com",
@@ -31,7 +19,6 @@ export const profile = {
   linkedin: "abdulyasin-devstack",
   resume: "/resume.pdf",
 
-  // Matches the GitHub profile bio, word for word.
   bio: "Full Stack Developer | Backend Focused. Building web apps with React, Next.js, TypeScript, Node.js & MongoDB.",
 
   hero:
@@ -49,13 +36,9 @@ export const profile = {
     resume: "/resume.pdf",
   },
 
-  /* ---------------------------------------------------------------- stats */
-  // Derived, so they can never drift from the rest of the data.
-  liveApps: 4, // repos with a deployed homepage
   starsGivenAt: "2025",
-  lighthouse: "100", // accessibility score on Surhires (from the resume)
+  lighthouse: "100", 
 
-  /* ------------------------------------------------------------ experience */
   experience: [
     {
       org: "Government Engineering College, Ajmer",
@@ -70,7 +53,6 @@ export const profile = {
     },
   ],
 
-  /* -------------------------------------------------------------- projects */
   featured: [
     {
       name: "Surhires",
@@ -148,9 +130,6 @@ export const profile = {
 
   others: [],
 
-  /* ---------------------------------------------------------------- skills */
-  // Straight out of the resume's "Technical Skills" block.
-  // Each item carries a short note, rendered like a toolkit card.
   skills: [
     {
       group: "Languages",
@@ -210,8 +189,6 @@ export const profile = {
     },
   ],
 
-  /* --------------------------------------------------------------- journey */
-  // Dated milestones — the story behind the stats, newest first.
   journey: [
     {
       period: "2026 — Now",
@@ -223,7 +200,7 @@ export const profile = {
     {
       period: "2025 — Dec",
       tag: "Open Source",
-      title: "24+ Public Repositories",
+      title: `${githubData.public_repos}+ Public Repositories`,
       org: "github.com/azlancodeshere",
       desc: "Publishing full-stack builds openly — appointment booking, ticketing, chat and e-commerce systems — with consistent daily commits tracked on the contribution graph.",
     },
@@ -255,8 +232,8 @@ export const nav = [
 export const skillCount = profile.skills.reduce((n, g) => n + g.items.length, 0);
 
 export const stats = [
-  { value: "24", label: "Public repositories", plus: true },
-  { value: String(profile.liveApps), label: "Live apps deployed", plus: true },
+  { value: String(githubData.public_repos), label: "Public repositories", plus: true, live: "repos" },
+  { value: String(githubData.liveApps), label: "Live apps deployed", plus: true, live: "liveApps" },
   { value: String(contributionsData.total), label: "Contributions (last 12 mo)", plus: false, live: "contributions" },
   { value: profile.lighthouse, label: "Lighthouse accessibility", plus: false },
 ];
