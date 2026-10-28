@@ -63,6 +63,7 @@ export default function ContributionGrid() {
           <span className="font-semibold text-ink-2">{total.toLocaleString()}</span>{" "}
           contributions in the last year
         </span>
+        <span className="sm:hidden">Swipe to see the full year →</span>
       </p>
 
       <div className="overflow-x-auto pb-2">

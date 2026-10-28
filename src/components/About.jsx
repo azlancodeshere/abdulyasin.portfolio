@@ -38,7 +38,7 @@ export default function About() {
       heading2="Engineering Focus"
       sub="A computer science student building practical, production-ready web applications."
     >
-      <div className="grid gap-10 lg:grid-cols-[1.3fr_1fr]">
+      <div className="grid gap-10 md:grid-cols-[1.3fr_1fr]">
         <div className="reveal">
           <div className="space-y-4 text-base leading-relaxed text-ink-2">
             <p>

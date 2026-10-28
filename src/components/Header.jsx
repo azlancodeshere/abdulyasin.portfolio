@@ -38,7 +38,7 @@ export default function Header() {
       if (e.key === "Escape") setMobileMenuOpen(false);
     };
     const handleResize = () => {
-      if (window.innerWidth >= 768) setMobileMenuOpen(false);
+      if (window.innerWidth >= 1024) setMobileMenuOpen(false);
     };
     window.addEventListener("keydown", handleKeyDown);
     window.addEventListener("resize", handleResize);
@@ -72,13 +72,13 @@ export default function Header() {
             <span className="text-sm font-semibold tracking-tight text-ink">
               {profile.name}
             </span>
-            <span className="text-[11px] font-medium text-ink-3">
+            <span className="hidden text-[11px] font-medium text-ink-3 lg:block">
               Full Stack Developer
             </span>
           </div>
         </a>
 
-        <div className="hidden items-center gap-1 md:flex">
+        <div className="hidden items-center gap-1 lg:flex">
           <ul className="flex items-center gap-1 rounded-full border border-line bg-surface/60 p-1 backdrop-blur-md">
             {nav.map((item) => {
               const isActive = active === item.href.slice(1);
@@ -116,7 +116,7 @@ export default function Header() {
             className="inline-flex items-center gap-1.5 rounded-lg border border-line bg-surface px-3 py-1.5 text-xs font-semibold text-ink shadow-sm transition-all hover:border-line-hi hover:bg-surface-hover hover:text-accent"
           >
             <FileText className="size-3.5" aria-hidden="true" />
-            <span>Résumé</span>
+            <span className="hidden sm:inline">Résumé</span>
           </a>
 
           <button
@@ -124,7 +124,7 @@ export default function Header() {
             onClick={() => setMobileMenuOpen((o) => !o)}
             aria-label="Toggle navigation menu"
             aria-expanded={mobileMenuOpen}
-            className="flex size-9 items-center justify-center rounded-lg border border-line bg-surface text-ink transition-colors hover:border-line-hi hover:bg-surface-hover md:hidden"
+            className="flex size-10 items-center justify-center rounded-lg border border-line bg-surface text-ink transition-colors hover:border-line-hi hover:bg-surface-hover lg:hidden"
           >
             {mobileMenuOpen ? (
               <X className="size-4" aria-hidden="true" />
@@ -136,7 +136,7 @@ export default function Header() {
       </nav>
 
       {mobileMenuOpen && (
-        <div className="border-b border-line bg-page/95 px-4 pt-2 pb-6 backdrop-blur-xl md:hidden">
+        <div className="border-b border-line bg-page/95 px-4 pt-2 pb-6 backdrop-blur-xl lg:hidden">
           <ul className="flex flex-col space-y-1">
             {nav.map((item) => {
               const isActive = active === item.href.slice(1);

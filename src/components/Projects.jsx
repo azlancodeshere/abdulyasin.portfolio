@@ -117,7 +117,7 @@ export default function Projects() {
             {filteredFeatured.map((p) => (
               <article
                 key={p.repo}
-                className="reveal group overflow-hidden rounded-2xl border border-line bg-surface/90 shadow-md transition-all hover:border-line-hi hover:shadow-xl lg:grid lg:grid-cols-[1.2fr_1fr]"
+                className="reveal group overflow-hidden rounded-2xl border border-line bg-surface/90 shadow-md transition-all hover:border-line-hi hover:shadow-xl md:grid md:grid-cols-[1.2fr_1fr]"
               >
                 <div className="flex flex-col justify-between p-6 sm:p-7">
                   <div>
@@ -150,7 +150,7 @@ export default function Projects() {
                   </div>
                 </div>
 
-                <div className="relative flex items-center justify-center overflow-hidden border-t border-line bg-subtle lg:border-t-0 lg:border-l">
+                <div className="relative flex items-center justify-center overflow-hidden border-t border-line bg-subtle md:border-t-0 md:border-l">
                   <a
                     href={p.live || p.code}
                     target="_blank"

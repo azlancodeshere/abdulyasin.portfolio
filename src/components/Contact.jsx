@@ -61,7 +61,7 @@ export default function Contact() {
   };
 
   const inputClass =
-    "w-full rounded-lg border border-line bg-subtle px-3.5 py-2.5 text-sm text-ink placeholder:text-ink-3 transition-all focus:border-accent focus:bg-surface focus:outline-none focus:ring-1 focus:ring-accent";
+    "w-full rounded-lg border border-line bg-subtle px-3.5 py-2.5 text-[16px] text-ink placeholder:text-ink-3 transition-all focus:border-accent focus:bg-surface focus:outline-none focus:ring-1 focus:ring-accent";
 
   return (
     <Section

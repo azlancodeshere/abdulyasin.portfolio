@@ -24,7 +24,7 @@ export default function Hero() {
       <div className="grid-bg pointer-events-none absolute inset-x-0 top-0 h-[480px]" aria-hidden="true" />
 
       <div className="wrap relative">
-        <div className="grid items-center gap-10 lg:grid-cols-[1.35fr_1fr] lg:gap-12">
+        <div className="grid items-center gap-10 md:grid-cols-[1.35fr_1fr] md:gap-10 lg:gap-12">
           <div>
             <div className="reveal inline-flex items-center gap-2 rounded-full border border-line bg-surface/80 px-3.5 py-1.5 text-xs text-ink-2 shadow-sm backdrop-blur-sm">
               <span className="relative flex size-2">
@@ -35,7 +35,7 @@ export default function Hero() {
             </div>
 
             <div className="reveal mt-5">
-              <h1 className="text-3xl font-extrabold tracking-tight text-ink sm:text-5xl md:text-6xl md:leading-[1.12]">
+              <h1 className="text-3xl font-extrabold tracking-tight text-ink sm:text-5xl md:text-4xl md:leading-[1.12] lg:text-6xl">
                 Hi, I&rsquo;m <span className="text-accent">{profile.name}</span>.
                 <br />
                 <span className="bg-gradient-to-r from-ink via-ink to-ink-2 bg-clip-text text-transparent">
@@ -113,7 +113,7 @@ export default function Hero() {
             </div>
           </div>
 
-          <div className="reveal flex justify-center lg:justify-end" style={{ transitionDelay: "120ms" }}>
+          <div className="reveal flex justify-center md:justify-end" style={{ transitionDelay: "120ms" }}>
             <div className="relative w-full max-w-sm rounded-2xl border border-line bg-surface/90 p-5 shadow-2xl backdrop-blur-md">
               <div className="flex items-center justify-between border-b border-line pb-4">
                 <div className="flex items-center gap-2.5">
