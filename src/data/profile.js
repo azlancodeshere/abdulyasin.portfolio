@@ -11,6 +11,8 @@
  *   npm run sync
  */
 
+import contributionsData from "./contributions.json";
+
 const REPO = "https://github.com/azlancodeshere";
 
 export const profile = {
@@ -49,7 +51,7 @@ export const profile = {
 
   /* ---------------------------------------------------------------- stats */
   // Derived, so they can never drift from the rest of the data.
-  liveApps: 6, // repos with a deployed homepage
+  liveApps: 4, // repos with a deployed homepage
   starsGivenAt: "2025",
   lighthouse: "100", // accessibility score on Surhires (from the resume)
 
@@ -124,91 +126,121 @@ export const profile = {
       repo: "inventory-management",
       stars: 1,
     },
-  ],
-
-  others: [
-    {
-      name: "Syncora",
-      category: "Full Stack",
-      kind: "Appointment Booking",
-      blurb:
-        "Appointment platform connecting clients with Doctors, Lawyers, Barbers and Trainers — availability slots, request lifecycle and role-based access.",
-      stack: ["React", "Node.js", "Express", "MongoDB", "JWT"],
-      code: `${REPO}/Appointment-booking`,
-      repo: "Appointment-booking",
-      stars: 1,
-      image: null,
-    },
-    {
-      name: "Ecommerce Full Stack",
-      category: "Full Stack",
-      kind: "E-Commerce",
-      blurb: "Full-stack e-commerce application, live on Vercel with the source on GitHub.",
-      stack: ["React", "Node.js", "Express", "MongoDB"],
-      live: "https://ecommerce-full-stack-olive.vercel.app",
-      code: `${REPO}/Ecommerce-Full-Stack`,
-      repo: "Ecommerce-Full-Stack",
-      stars: 1,
-      image: "/projects/ecommerce.jpg",
-    },
-    {
-      name: "Hospital System",
-      category: "Full Stack",
-      kind: "Healthcare Management",
-      blurb: "Hospital management web app with patient records and appointments, deployed live on Vercel.",
-      stack: ["React", "Node.js", "Express", "MongoDB"],
-      live: "https://hospital-system-eosin-two.vercel.app",
-      code: `${REPO}/Hospital-system`,
-      repo: "Hospital-system",
-      stars: 1,
-      image: "/projects/hospital.jpg",
-    },
     {
       name: "Ticket Booking",
       category: "Full Stack",
-      kind: "Ticket Booking",
-      blurb: "Ticket booking application with a React front end and Node.js backend, live on Vercel.",
+      kind: "Cinema Ticket Booking",
+      blurb:
+        "Cinema ticket booking platform — browse movies and showtimes, pick a seat and get a QR ticket, with a React front end and Node.js backend live on Vercel.",
+      points: [
+        "Seat-selection booking flow across movies and showtimes, confirmed end to end with a QR ticket.",
+        "REST API built with Node.js and Express, with MongoDB storing movies, showtimes, users and bookings.",
+        "Cinema landing experience with live show listings, deployed on Vercel and source hosted on GitHub.",
+      ],
       stack: ["React", "Node.js", "Express", "MongoDB"],
       live: "https://ticket-booking-lemon.vercel.app",
       code: `${REPO}/ticket-booking-`,
+      image: "/projects/ticket-booking.jpg",
       repo: "ticket-booking-",
       stars: 1,
-      image: "/projects/ticket-booking.jpg",
-    },
-    {
-      name: "Chat Application",
-      category: "Backend",
-      kind: "Real-time Messaging",
-      blurb:
-        "Chat app with a React frontend and Node.js/Express backend, using MongoDB for persistent user and application data.",
-      stack: ["React", "JavaScript", "Node.js", "Express", "MongoDB"],
-      code: `${REPO}/chat-app`,
-      repo: "chat-app",
-      stars: 1,
-      image: null,
-    },
-    {
-      name: "Uber Full Stack",
-      category: "Full Stack",
-      kind: "Ride Booking Flow",
-      blurb: "Full-stack rebuild of a ride-booking flow — frontend, APIs and database in one repo.",
-      stack: ["React", "Node.js", "Express", "MongoDB"],
-      code: `${REPO}/Uber-full-stack`,
-      repo: "Uber-full-stack",
-      stars: 2,
-      image: null,
     },
   ],
 
+  others: [],
+
   /* ---------------------------------------------------------------- skills */
   // Straight out of the resume's "Technical Skills" block.
+  // Each item carries a short note, rendered like a toolkit card.
   skills: [
-    { group: "Languages", items: ["JavaScript", "TypeScript"] },
-    { group: "Frontend", items: ["React.js", "Next.js", "HTML5", "CSS3", "Tailwind CSS", "React Router", "Vite"] },
-    { group: "Backend", items: ["Node.js", "Express.js", "REST APIs", "MVC Architecture"] },
-    { group: "Database", items: ["MongoDB", "Mongoose", "Data Modeling"] },
-    { group: "Authentication", items: ["JWT", "HTTP-Only Cookies", "bcrypt", "Role-Based Access"] },
-    { group: "Tools & DevOps", items: ["Git", "GitHub", "Postman", "Axios", "Vercel", "npm"] },
+    {
+      group: "Languages",
+      items: [
+        { name: "JavaScript", note: "Daily driver" },
+        { name: "TypeScript", note: "Type-safe apps" },
+      ],
+    },
+    {
+      group: "Frontend",
+      items: [
+        { name: "React.js", note: "Primary UI library" },
+        { name: "Next.js", note: "App Router & SSR" },
+        { name: "HTML5", note: "Semantic markup" },
+        { name: "CSS3", note: "Modern layouts" },
+        { name: "Tailwind CSS", note: "Styling system" },
+        { name: "React Router", note: "Client routing" },
+        { name: "Vite", note: "Build tooling" },
+      ],
+    },
+    {
+      group: "Backend",
+      items: [
+        { name: "Node.js", note: "Runtime of choice" },
+        { name: "Express.js", note: "REST API framework" },
+        { name: "REST APIs", note: "Design & integration" },
+        { name: "MVC Architecture", note: "Project structure" },
+      ],
+    },
+    {
+      group: "Database",
+      items: [
+        { name: "MongoDB", note: "Primary NoSQL DB" },
+        { name: "Mongoose", note: "Schema & validation" },
+        { name: "Data Modeling", note: "Collections design" },
+      ],
+    },
+    {
+      group: "Authentication",
+      items: [
+        { name: "JWT", note: "Stateless sessions" },
+        { name: "HTTP-Only Cookies", note: "Secure storage" },
+        { name: "bcrypt", note: "Password hashing" },
+        { name: "Role-Based Access", note: "Protected routes" },
+      ],
+    },
+    {
+      group: "Tools & DevOps",
+      items: [
+        { name: "Git", note: "Version control" },
+        { name: "GitHub", note: "Hosted repositories" },
+        { name: "Postman", note: "API testing" },
+        { name: "Axios", note: "HTTP client" },
+        { name: "Vercel", note: "Deployment" },
+        { name: "npm", note: "Package management" },
+      ],
+    },
+  ],
+
+  /* --------------------------------------------------------------- journey */
+  // Dated milestones — the story behind the stats, newest first.
+  journey: [
+    {
+      period: "2026 — Now",
+      tag: "Focus",
+      title: "Building Full-Stack Products",
+      org: "Surhires · Notes Keeper AI · Inventory Management",
+      desc: "Shipping production-grade MERN apps end to end — JWT auth, REST APIs and MongoDB backends with polished React and Tailwind interfaces, all deployed live on Vercel.",
+    },
+    {
+      period: "2025 — Dec",
+      tag: "Open Source",
+      title: "24+ Public Repositories",
+      org: "github.com/azlancodeshere",
+      desc: "Publishing full-stack builds openly — appointment booking, ticketing, chat and e-commerce systems — with consistent daily commits tracked on the contribution graph.",
+    },
+    {
+      period: "2025 — Sep",
+      tag: "Education",
+      title: "B.Tech in Computer Science",
+      org: "Government Engineering College, Ajmer",
+      desc: "Started the bachelor's program with coursework in Data Structures & Algorithms, DBMS, Operating Systems and Computer Networks — the fundamentals behind every project here.",
+    },
+    {
+      period: "2025",
+      tag: "Milestone",
+      title: "First Full-Stack Apps Shipped",
+      org: "React + Node.js + MongoDB",
+      desc: "Moved from tutorials to real products — built and deployed the first end-to-end applications with authentication, database integration and responsive frontends.",
+    },
   ],
 };
 
@@ -216,15 +248,15 @@ export const nav = [
   { label: "About", href: "#about" },
   { label: "Projects", href: "#projects" },
   { label: "Skills", href: "#skills" },
-  { label: "Experience", href: "#experience" },
+  { label: "Journey", href: "#experience" },
   { label: "Contact", href: "#contact" },
 ];
 
 export const skillCount = profile.skills.reduce((n, g) => n + g.items.length, 0);
 
 export const stats = [
-  { value: "24", label: "Public repositories" },
-  { value: String(profile.liveApps), label: "Live apps deployed" },
-  { value: String(skillCount), label: "Technologies in stack" },
-  { value: profile.lighthouse, label: "Lighthouse accessibility" },
+  { value: "24", label: "Public repositories", plus: true },
+  { value: String(profile.liveApps), label: "Live apps deployed", plus: true },
+  { value: String(contributionsData.total), label: "Contributions (last 12 mo)", plus: false },
+  { value: profile.lighthouse, label: "Lighthouse accessibility", plus: false },
 ];
