@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ArrowUpRight, Check, Copy, Mail, MapPin, Phone, Send } from "lucide-react";
+import { ArrowUpRight, Check, Copy, Mail, MapPin, Send } from "lucide-react";
 import { GithubIcon, LinkedinIcon } from "./BrandIcons.jsx";
 import Section from "./Section.jsx";
 import { profile } from "../data/profile.js";
@@ -13,22 +13,15 @@ const contactLinks = [
     canCopy: true,
   },
   {
-    label: "Phone",
-    value: profile.phone,
-    href: `tel:${profile.phone.replace(/\s/g, "")}`,
-    icon: Phone,
-    canCopy: true,
-  },
-  {
     label: "LinkedIn",
-    value: "linkedin.com/in/abdulyasin-devstack",
+    value: "abdulyasin-devstack",
     href: profile.links.linkedin,
     icon: LinkedinIcon,
     external: true,
   },
   {
     label: "GitHub",
-    value: "github.com/azlancodeshere",
+    value: "azlancodeshere",
     href: profile.links.github,
     icon: GithubIcon,
     external: true,
@@ -61,7 +54,7 @@ export default function Contact() {
   };
 
   const inputClass =
-    "w-full rounded-lg border border-line bg-subtle px-3.5 py-2.5 text-[16px] text-ink placeholder:text-ink-3 transition-all focus:border-accent focus:bg-surface focus:outline-none focus:ring-1 focus:ring-accent";
+    "w-full rounded-xl border border-line bg-subtle/80 px-4 py-3 text-[15px] text-ink placeholder:text-ink-3 transition-all focus:border-accent/60 focus:bg-surface focus:outline-none focus:ring-1 focus:ring-accent/40";
 
   return (
     <Section
@@ -69,34 +62,34 @@ export default function Contact() {
       kicker="Get In Touch"
       heading="Let&rsquo;s"
       heading2="Connect"
-      sub="I am actively looking for full-time opportunities, internships, and freelance projects. Let's discuss how I can contribute to your team."
+      sub="Actively seeking full-time roles, internships, and collaborations. Let's discuss how I can contribute."
     >
-      <div className="grid gap-8 lg:grid-cols-[1fr_1.25fr]">
-        <div className="reveal space-y-6">
-          <div className="rounded-2xl border border-line bg-surface/90 p-6 shadow-md backdrop-blur-md">
-            <div className="flex items-center gap-2.5 text-xs font-semibold text-emerald-live">
-              <span className="relative flex size-2">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-live opacity-75" />
-                <span className="relative inline-flex size-2 rounded-full bg-emerald-live" />
-              </span>
-              <span>Available for Immediate Opportunities</span>
-            </div>
-            <h3 className="mt-3 text-lg font-bold text-ink">Have a project or role in mind?</h3>
-            <p className="mt-2 text-xs leading-relaxed text-ink-3">
-              I reply quickly to messages. Feel free to copy my email directly or reach out via LinkedIn.
-            </p>
+      <div className="grid gap-8 lg:grid-cols-[1fr_1.3fr]">
 
-            <div className="mt-4 flex items-center gap-2 text-xs text-ink-2">
-              <MapPin className="size-3.5 text-accent" />
-              <span>{profile.location} (Open to Remote & Relocation)</span>
+        {/* Left: info + links */}
+        <div className="reveal space-y-5">
+          {/* Status card */}
+          <div className="rounded-2xl border border-emerald-live/20 bg-emerald-live/5 p-5">
+            <div className="flex items-center gap-2 text-xs font-bold text-emerald-live mb-2">
+              <span className="relative flex size-1.5">
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-live opacity-75" />
+                <span className="relative inline-flex size-1.5 rounded-full bg-emerald-live" />
+              </span>
+              Available Now
+            </div>
+            <p className="text-sm font-semibold text-ink">Open to full-time, internships &amp; freelance</p>
+            <div className="mt-3 flex items-center gap-1.5 text-xs text-ink-3">
+              <MapPin className="size-3.5 text-accent shrink-0" />
+              <span>{profile.location} · Remote-friendly &amp; open to relocation</span>
             </div>
           </div>
 
-          <div className="space-y-3">
+          {/* Contact links */}
+          <div className="space-y-2.5">
             {contactLinks.map(({ label, value, href, icon: Icon, external, canCopy }) => (
               <div
                 key={label}
-                className="group flex items-center justify-between rounded-xl border border-line bg-surface p-3.5 transition-all hover:border-line-hi hover:bg-surface/90"
+                className="group flex items-center justify-between rounded-2xl border border-line bg-surface/70 p-3.5 transition-all hover:border-line-hi hover:bg-surface"
               >
                 <a
                   href={href}
@@ -104,11 +97,11 @@ export default function Contact() {
                   rel="noreferrer"
                   className="flex min-w-0 items-center gap-3"
                 >
-                  <span className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-accent-muted text-accent">
+                  <span className="flex size-9 shrink-0 items-center justify-center rounded-xl bg-accent-muted text-accent">
                     <Icon className="size-4" />
                   </span>
                   <div className="min-w-0">
-                    <span className="block text-[11px] font-medium text-ink-3 uppercase">{label}</span>
+                    <span className="block text-[10px] font-bold text-ink-3 uppercase tracking-wider">{label}</span>
                     <span className="block truncate font-mono text-xs text-ink group-hover:text-accent transition-colors">
                       {value}
                     </span>
@@ -120,7 +113,7 @@ export default function Contact() {
                     type="button"
                     onClick={() => copyToClipboard(value, label)}
                     aria-label={`Copy ${label}`}
-                    className="flex size-8 shrink-0 items-center justify-center rounded-lg border border-line bg-subtle text-ink-3 transition-colors hover:border-line-hi hover:bg-surface hover:text-ink"
+                    className="flex size-8 shrink-0 items-center justify-center rounded-lg border border-line bg-subtle text-ink-3 transition-colors hover:border-line-hi hover:text-accent"
                   >
                     {copiedKey === label ? (
                       <Check className="size-3.5 text-emerald-live" />
@@ -145,17 +138,18 @@ export default function Contact() {
           </div>
         </div>
 
+        {/* Right: form */}
         <div className="reveal" style={{ transitionDelay: "100ms" }}>
-          <div className="rounded-2xl border border-line bg-surface/90 p-6 shadow-md backdrop-blur-md md:p-8">
-            <h3 className="text-lg font-bold text-ink">Send a Direct Message</h3>
+          <div className="rounded-2xl border border-line bg-surface/80 p-6 shadow-xl md:p-8">
+            <h3 className="text-lg font-extrabold text-ink">Send a Message</h3>
             <p className="mt-1 text-xs text-ink-3">
-              Fill out this form to launch your email client with all details prepared.
+              Fill this out and your email client opens with everything pre-filled.
             </p>
 
             <form onSubmit={onSubmit} className="mt-6 space-y-4">
               <div className="grid gap-4 sm:grid-cols-2">
                 <div>
-                  <label htmlFor="name" className="mb-1.5 block text-xs font-semibold text-ink-2">
+                  <label htmlFor="name" className="mb-1.5 block text-xs font-bold text-ink-2">
                     Your Name
                   </label>
                   <input
@@ -168,9 +162,8 @@ export default function Contact() {
                     placeholder="e.g. Alex Smith"
                   />
                 </div>
-
                 <div>
-                  <label htmlFor="email" className="mb-1.5 block text-xs font-semibold text-ink-2">
+                  <label htmlFor="email" className="mb-1.5 block text-xs font-bold text-ink-2">
                     Your Email
                   </label>
                   <input
@@ -181,13 +174,13 @@ export default function Contact() {
                     value={form.email}
                     onChange={update("email")}
                     className={inputClass}
-                    placeholder="alex@example.com"
+                    placeholder="alex@company.com"
                   />
                 </div>
               </div>
 
               <div>
-                <label htmlFor="subject" className="mb-1.5 block text-xs font-semibold text-ink-2">
+                <label htmlFor="subject" className="mb-1.5 block text-xs font-bold text-ink-2">
                   Subject
                 </label>
                 <input
@@ -196,12 +189,12 @@ export default function Contact() {
                   value={form.subject}
                   onChange={update("subject")}
                   className={inputClass}
-                  placeholder="e.g. Job Opportunity / Collaboration"
+                  placeholder="Job Opportunity / Collaboration / Project"
                 />
               </div>
 
               <div>
-                <label htmlFor="message" className="mb-1.5 block text-xs font-semibold text-ink-2">
+                <label htmlFor="message" className="mb-1.5 block text-xs font-bold text-ink-2">
                   Message
                 </label>
                 <textarea
@@ -212,21 +205,21 @@ export default function Contact() {
                   value={form.message}
                   onChange={update("message")}
                   className={`${inputClass} resize-none`}
-                  placeholder="Write your message here..."
+                  placeholder="Tell me about the role, project, or opportunity..."
                 />
               </div>
 
               <button
                 type="submit"
-                className="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-accent px-5 py-3 text-sm font-semibold text-page shadow-md shadow-accent/20 transition-all hover:bg-sky-400 hover:shadow-lg hover:-translate-y-0.5"
+                className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-accent px-5 py-3.5 text-sm font-extrabold text-page shadow-lg shadow-accent/25 transition-all hover:bg-sky-300 hover:shadow-accent/40 hover:-translate-y-0.5"
               >
                 <Send className="size-4" aria-hidden="true" />
-                <span>Send Message</span>
+                Send Message
               </button>
 
               {sent && (
-                <div className="rounded-lg border border-accent/30 bg-accent-muted p-3 text-xs text-accent">
-                  Your mail client has been opened. Thank you for getting in touch!
+                <div className="rounded-xl border border-accent/25 bg-accent-muted p-3 text-center text-xs text-accent font-medium">
+                  ✓ Your mail client has opened. Thanks for reaching out!
                 </div>
               )}
             </form>
@@ -236,4 +229,3 @@ export default function Contact() {
     </Section>
   );
 }
-

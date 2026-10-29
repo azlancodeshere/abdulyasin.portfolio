@@ -62,10 +62,10 @@ export default function App() {
       <main id="content" tabIndex={-1} className="outline-none">
         <Hero />
         <About />
+        <Contributions />
         <Projects />
         <Skills />
         <Journey />
-        <Contributions />
         <Contact />
       </main>
       <Footer />

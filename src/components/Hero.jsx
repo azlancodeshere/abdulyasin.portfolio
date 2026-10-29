@@ -1,187 +1,204 @@
-import { ArrowDown, ArrowUpRight, Download, Mail } from "lucide-react";
+import { ArrowDown, ArrowUpRight, Download, Terminal } from "lucide-react";
 import { GithubIcon, LinkedinIcon } from "./BrandIcons.jsx";
 import { useContributions } from "../hooks/useContributions.js";
 import { useGithub } from "../hooks/useGithub.js";
 import { profile, stats } from "../data/profile.js";
 
-const socials = [
-  { label: "GitHub", href: profile.links.github, icon: GithubIcon, handle: "azlancodeshere" },
-  { label: "LinkedIn", href: profile.links.linkedin, icon: LinkedinIcon, handle: "abdulyasin-devstack" },
-  { label: "Email", href: profile.links.email, icon: Mail, handle: profile.email },
-];
+const coreTech = ["React.js", "Next.js", "TypeScript", "Node.js", "Express", "MongoDB"];
 
-const coreTech = ["React.js", "Next.js", "TypeScript", "Node.js", "Express", "MongoDB", "Tailwind CSS"];
+const terminalLines = [
+  { prompt: "dev", cmd: "whoami", out: "Abdul Yasin — Full Stack Developer" },
+  { prompt: "dev", cmd: "cat focus.txt", out: "Backend APIs · Auth · MERN Stack" },
+  { prompt: "dev", cmd: "ls ./shipped", out: "surhires  notes-keeper  inventory  ticket-booking" },
+  { prompt: "dev", cmd: "echo $STATUS", out: "Open to roles & internships ✓" },
+];
 
 export default function Hero() {
   const { total: contributions } = useContributions();
   const { publicRepos, liveApps } = useGithub();
-
   const liveValues = { repos: publicRepos, liveApps, contributions };
 
   return (
-    <section id="top" className="relative overflow-hidden pt-12 pb-16 md:pt-20 md:pb-24">
-      <div className="radial-glow pointer-events-none absolute inset-x-0 top-0 h-[500px]" aria-hidden="true" />
-      <div className="grid-bg pointer-events-none absolute inset-x-0 top-0 h-[480px]" aria-hidden="true" />
+    <section id="top" className="relative overflow-hidden pt-14 pb-20 md:pt-24 md:pb-28">
+      {/* Background layers */}
+      <div className="radial-glow pointer-events-none absolute inset-x-0 top-0 h-[600px]" aria-hidden="true" />
+      <div className="grid-bg pointer-events-none absolute inset-x-0 top-0 h-[520px]" aria-hidden="true" />
 
       <div className="wrap relative">
-        <div className="grid items-center gap-10 md:grid-cols-[1.35fr_1fr] md:gap-10 lg:gap-12">
+        <div className="grid items-center gap-12 md:grid-cols-[1.4fr_1fr] lg:gap-16">
+
+          {/* ── Left: copy ── */}
           <div>
-            <div className="reveal inline-flex items-center gap-2 rounded-full border border-line bg-surface/80 px-3.5 py-1.5 text-xs text-ink-2 shadow-sm backdrop-blur-sm">
-              <span className="relative flex size-2">
+            {/* Status badge */}
+            <div className="reveal inline-flex items-center gap-2 rounded-full border border-emerald-live/25 bg-emerald-live/8 px-4 py-1.5 text-xs font-medium text-emerald-live backdrop-blur-sm">
+              <span className="relative flex size-1.5">
                 <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-live opacity-75" />
-                <span className="relative inline-flex size-2 rounded-full bg-emerald-live" />
+                <span className="relative inline-flex size-1.5 rounded-full bg-emerald-live" />
               </span>
-              <span className="font-medium text-ink-2">Available for Full-time Roles & Internships</span>
+              Open to Full-Time &amp; Internships
             </div>
 
-            <div className="reveal mt-5">
-              <h1 className="text-3xl font-extrabold tracking-tight text-ink sm:text-5xl md:text-4xl md:leading-[1.12] lg:text-6xl">
-                Hi, I&rsquo;m <span className="text-accent">{profile.name}</span>.
-                <br />
-                <span className="bg-gradient-to-r from-ink via-ink to-ink-2 bg-clip-text text-transparent">
-                  Full Stack Developer.
+            {/* Headline */}
+            <div className="reveal mt-6">
+              <p className="font-mono text-xs tracking-[0.2em] text-ink-3 uppercase mb-3">
+                &lt;full-stack-developer /&gt;
+              </p>
+              <h1 className="text-4xl font-extrabold tracking-tight text-ink sm:text-5xl md:text-4xl md:leading-[1.08] lg:text-[3.25rem]">
+                Hi, I&rsquo;m{" "}
+                <span className="bg-gradient-to-r from-accent via-sky-300 to-blue-400 bg-clip-text text-transparent">
+                  {profile.name}
                 </span>
+                .
+                <br />
+                <span className="text-ink">Full Stack Dev.</span>
               </h1>
-              <p className="mt-5 max-w-xl text-base leading-relaxed text-ink-2 sm:text-lg">
-                I engineer clean, end-to-end web applications with robust backend APIs, secure authentication, and responsive modern user interfaces.
+              <p className="mt-5 max-w-lg text-base leading-relaxed text-ink-2">
+                I build end-to-end web products — REST APIs, JWT auth &amp; MongoDB on the backend; React and Tailwind on the front. Shipped live on Vercel.
               </p>
             </div>
 
-            <div className="reveal mt-6 flex flex-wrap items-center gap-2" style={{ transitionDelay: "100ms" }}>
-              <span className="text-xs font-semibold tracking-wider text-ink-3 uppercase">Stack:</span>
+            {/* Tech pills */}
+            <div className="reveal mt-7 flex flex-wrap items-center gap-2" style={{ transitionDelay: "80ms" }}>
               {coreTech.map((tech) => (
                 <span
                   key={tech}
-                  className="rounded-md border border-line bg-subtle px-2.5 py-1 font-mono text-xs font-medium text-ink-2 shadow-xs transition-colors hover:border-accent/40 hover:text-ink"
+                  className="rounded-full border border-line bg-surface/60 px-3 py-1 font-mono text-[11px] font-medium text-ink-3 transition-all hover:border-accent/40 hover:text-ink-2"
                 >
                   {tech}
                 </span>
               ))}
             </div>
 
-            <div
-              className="reveal mt-8 flex flex-wrap items-center gap-3"
-              style={{ transitionDelay: "180ms" }}
-            >
+            {/* CTAs */}
+            <div className="reveal mt-8 flex flex-wrap items-center gap-3" style={{ transitionDelay: "150ms" }}>
               <a
                 href="#projects"
-                className="inline-flex items-center gap-2 rounded-lg bg-accent px-5 py-3 text-sm font-semibold text-page shadow-md shadow-accent/20 transition-all hover:bg-sky-400 hover:shadow-lg hover:shadow-accent/30 hover:-translate-y-0.5"
+                className="inline-flex items-center gap-2 rounded-xl bg-accent px-5 py-2.5 text-sm font-bold text-page shadow-lg shadow-accent/25 transition-all hover:bg-sky-300 hover:shadow-accent/40 hover:-translate-y-0.5"
               >
-                <span>View Projects</span>
-                <ArrowDown className="size-4" aria-hidden="true" />
+                View Projects
+                <ArrowDown className="size-3.5" aria-hidden="true" />
               </a>
-
-              <a
-                href="#contact"
-                className="inline-flex items-center gap-2 rounded-lg border border-line bg-surface px-5 py-3 text-sm font-semibold text-ink transition-all hover:border-line-hi hover:bg-surface-hover hover:-translate-y-0.5"
-              >
-                <span>Get in Touch</span>
-                <ArrowUpRight className="size-4" aria-hidden="true" />
-              </a>
-
               <a
                 href={profile.resume}
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex items-center gap-2 rounded-lg border border-line bg-surface/60 px-4 py-3 text-sm font-medium text-ink-2 transition-all hover:border-line-hi hover:bg-surface-hover hover:text-ink"
+                className="inline-flex items-center gap-2 rounded-xl border border-line bg-surface/70 px-5 py-2.5 text-sm font-semibold text-ink-2 transition-all hover:border-line-hi hover:text-ink hover:-translate-y-0.5"
               >
-                <Download className="size-4" aria-hidden="true" />
-                <span>CV</span>
+                <Download className="size-3.5" aria-hidden="true" />
+                Résumé
+              </a>
+              <a
+                href="#contact"
+                className="inline-flex items-center gap-1.5 rounded-xl border border-accent/25 bg-accent-muted px-5 py-2.5 text-sm font-semibold text-accent transition-all hover:bg-accent/15 hover:-translate-y-0.5"
+              >
+                Hire Me
+                <ArrowUpRight className="size-3.5" aria-hidden="true" />
               </a>
             </div>
 
+            {/* Socials */}
             <div
-              className="reveal mt-8 flex flex-wrap items-center gap-3 border-t border-line pt-6"
-              style={{ transitionDelay: "240ms" }}
+              className="reveal mt-8 flex flex-wrap items-center gap-2.5 border-t border-line/50 pt-6"
+              style={{ transitionDelay: "220ms" }}
             >
-              {socials.map(({ label, href, icon: Icon, handle }) => (
-                <a
-                  key={label}
-                  href={href}
-                  target={href.startsWith("mailto:") ? undefined : "_blank"}
-                  rel="noreferrer"
-                  className="group inline-flex items-center gap-2 rounded-lg border border-line bg-surface/50 px-3 py-1.5 text-xs text-ink-3 transition-colors hover:border-line-hi hover:bg-surface hover:text-ink"
-                >
-                  <Icon className="size-3.5 text-accent" aria-hidden="true" />
-                  <span className="font-mono">{handle}</span>
-                  <ArrowUpRight
-                    className="size-3 opacity-0 transition-opacity group-hover:opacity-100"
-                    aria-hidden="true"
-                  />
-                </a>
-              ))}
+              <a
+                href={profile.links.github}
+                target="_blank"
+                rel="noreferrer"
+                className="group inline-flex items-center gap-2 rounded-lg border border-line bg-surface/40 px-3 py-1.5 text-xs text-ink-3 transition-all hover:border-line-hi hover:bg-surface hover:text-ink"
+              >
+                <GithubIcon className="size-3.5 text-accent" />
+                <span className="font-mono">azlancodeshere</span>
+                <ArrowUpRight className="size-3 opacity-0 group-hover:opacity-60 transition-opacity" />
+              </a>
+              <a
+                href={profile.links.linkedin}
+                target="_blank"
+                rel="noreferrer"
+                className="group inline-flex items-center gap-2 rounded-lg border border-line bg-surface/40 px-3 py-1.5 text-xs text-ink-3 transition-all hover:border-line-hi hover:bg-surface hover:text-ink"
+              >
+                <LinkedinIcon className="size-3.5 text-accent" />
+                <span className="font-mono">abdulyasin-devstack</span>
+                <ArrowUpRight className="size-3 opacity-0 group-hover:opacity-60 transition-opacity" />
+              </a>
             </div>
           </div>
 
-          <div className="reveal flex justify-center md:justify-end" style={{ transitionDelay: "120ms" }}>
-            <div className="relative w-full max-w-sm rounded-2xl border border-line bg-surface/90 p-5 shadow-2xl backdrop-blur-md">
-              <div className="flex items-center justify-between border-b border-line pb-4">
-                <div className="flex items-center gap-2.5">
-                  <span className="relative flex size-2.5">
-                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-75" />
-                    <span className="relative inline-flex size-2.5 rounded-full bg-accent" />
-                  </span>
-                  <span className="text-xs font-semibold text-ink">Abdul Yasin</span>
+          {/* ── Right: Terminal card ── */}
+          <div className="reveal flex justify-center md:justify-end" style={{ transitionDelay: "100ms" }}>
+            <div className="w-full max-w-sm overflow-hidden rounded-2xl border border-white/8 shadow-2xl" style={{ background: "#0d1117" }}>
+              {/* Chrome bar */}
+              <div className="flex items-center gap-2 border-b border-white/5 bg-white/3 px-4 py-3">
+                <span className="size-3 rounded-full bg-red-500/70" />
+                <span className="size-3 rounded-full bg-yellow-400/70" />
+                <span className="size-3 rounded-full bg-green-500/70" />
+                <div className="ml-3 flex items-center gap-1.5 text-[11px] text-white/30 font-mono">
+                  <Terminal className="size-3" />
+                  <span>zsh — portfolio</span>
                 </div>
-                <span className="rounded bg-subtle px-2 py-0.5 font-mono text-[11px] text-accent">
-                  Full Stack
+              </div>
+
+              {/* Terminal body */}
+              <div className="p-5 font-mono text-[12px] leading-loose space-y-2">
+                {terminalLines.map((line, i) => (
+                  <div key={i}>
+                    <div className="flex items-center gap-1.5">
+                      <span className="text-emerald-400">{line.prompt}</span>
+                      <span className="text-white/20">~</span>
+                      <span className="text-white/40">$</span>
+                      <span className="text-sky-300 ml-1">{line.cmd}</span>
+                    </div>
+                    <div className="text-white/55 pl-0">{line.out}</div>
+                  </div>
+                ))}
+                <div className="flex items-center gap-1.5 pt-1">
+                  <span className="text-emerald-400">dev</span>
+                  <span className="text-white/20">~</span>
+                  <span className="text-white/40">$</span>
+                  <span className="ml-1 inline-block w-2 h-[13px] bg-accent/80 cursor-blink align-middle" />
+                </div>
+              </div>
+
+              {/* Profile strip */}
+              <div className="flex items-center gap-3 border-t border-white/5 bg-white/2 px-5 py-3.5">
+                <img
+                  src={profile.avatar}
+                  alt={profile.name}
+                  width={36}
+                  height={36}
+                  className="size-9 rounded-lg border border-white/10 object-cover"
+                />
+                <div className="min-w-0">
+                  <p className="text-[12px] font-bold text-white/90">{profile.name}</p>
+                  <p className="text-[10px] text-white/35 font-mono">{profile.location}</p>
+                </div>
+                <span className="ml-auto rounded-md bg-emerald-live/15 px-2 py-0.5 text-[10px] font-mono font-semibold text-emerald-live">
+                  AVAILABLE
                 </span>
-              </div>
-
-              <div className="mt-5 flex items-center gap-4">
-                <div className="relative">
-                  <img
-                    src={profile.avatar}
-                    alt={`${profile.name} portrait`}
-                    width={80}
-                    height={80}
-                    className="size-20 rounded-xl border border-line object-cover shadow-md"
-                  />
-                  <span className="absolute -bottom-1 -right-1 flex size-5 items-center justify-center rounded-full bg-emerald-live ring-4 ring-surface text-[10px] text-white">
-                    ✓
-                  </span>
-                </div>
-                <div>
-                  <h3 className="text-base font-bold text-ink">{profile.name}</h3>
-                  <p className="text-xs text-accent font-medium">B.Tech Computer Science</p>
-                  <p className="mt-1 text-xs text-ink-3">{profile.location}</p>
-                </div>
-              </div>
-
-              <p className="mt-4 rounded-lg border border-line bg-subtle p-3 text-xs leading-relaxed text-ink-2">
-                Specializing in React, Next.js, Node.js, Express, and MongoDB. Passionate about performant backend architecture and polished interfaces.
-              </p>
-
-              <div className="mt-4 grid grid-cols-2 gap-2 text-xs">
-                <div className="rounded-lg border border-line bg-subtle/70 p-2.5">
-                  <span className="block text-[11px] text-ink-3">Live Projects</span>
-                  <span className="font-mono text-sm font-bold text-ink">
-                    {liveApps} Apps Shipped
-                  </span>
-                </div>
-                <div className="rounded-lg border border-line bg-subtle/70 p-2.5">
-                  <span className="block text-[11px] text-ink-3">Lighthouse Score</span>
-                  <span className="font-mono text-sm font-bold text-emerald-400">100 / 100</span>
-                </div>
               </div>
             </div>
           </div>
         </div>
 
+        {/* Stats row */}
         <div
-          className="reveal mt-14 grid grid-cols-2 gap-3 sm:grid-cols-4 md:mt-18"
-          style={{ transitionDelay: "260ms" }}
+          className="reveal mt-16 grid grid-cols-2 gap-3 sm:grid-cols-4"
+          style={{ transitionDelay: "280ms" }}
         >
           {stats.map((s) => (
             <div
               key={s.label}
-              className="group rounded-xl border border-line bg-surface/80 p-4 transition-all hover:border-line-hi hover:bg-surface hover:-translate-y-0.5"
+              className="group relative overflow-hidden rounded-2xl border border-line bg-surface/60 p-5 transition-all hover:border-line-hi hover:bg-surface hover:-translate-y-0.5"
             >
-              <div className="font-mono text-2xl font-extrabold text-ink group-hover:text-accent md:text-3xl">
+              <div
+                className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity"
+                style={{ background: "radial-gradient(circle at 50% 0%, rgba(56,189,248,0.06), transparent 70%)" }}
+              />
+              <div className="relative font-mono text-2xl font-extrabold text-ink group-hover:text-accent md:text-3xl transition-colors">
                 {s.live ? liveValues[s.live] : s.value}
                 {s.plus && <span className="text-accent">+</span>}
               </div>
-              <div className="mt-1 text-xs font-medium text-ink-3">{s.label}</div>
+              <div className="relative mt-1.5 text-xs font-medium text-ink-3">{s.label}</div>
             </div>
           ))}
         </div>
@@ -189,4 +206,3 @@ export default function Hero() {
     </section>
   );
 }
-
