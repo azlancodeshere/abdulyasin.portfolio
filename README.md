@@ -65,7 +65,7 @@ Adding a new project = one object in `profile.featured` or `profile.others` in
 
 `vercel.json` pins `buildCommand: npm run build` and `outputDirectory: dist`.
 
-## Résumé
+## Resume
 
 `public/resume.pdf` is generated from `Abdul_Yasin_Resume_Dev_v8.docx`:
 

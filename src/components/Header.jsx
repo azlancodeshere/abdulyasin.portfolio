@@ -89,7 +89,7 @@ export default function Header() {
             Available
           </span>
 
-          {/* Résumé — GitHub green button style */}
+          {/* Resume — GitHub green button style */}
           <a
             href={profile.resume}
             target="_blank"
@@ -97,7 +97,7 @@ export default function Header() {
             className="hidden sm:inline-flex items-center gap-1.5 rounded-md border border-line bg-surface px-3 py-1.5 text-xs font-semibold text-ink shadow-sm transition-all hover:border-accent/40 hover:text-accent"
           >
             <FileText className="size-3.5" />
-            Résumé
+            Resume
           </a>
 
           {/* Mobile burger */}
@@ -141,7 +141,7 @@ export default function Header() {
               Available for hire
             </span>
             <a href={profile.resume} target="_blank" rel="noreferrer" className="text-accent hover:underline font-semibold">
-              Résumé ↗
+              Resume ↗
             </a>
           </div>
         </div>

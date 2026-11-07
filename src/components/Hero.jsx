@@ -81,7 +81,7 @@ export default function Hero() {
                 className="inline-flex items-center gap-1.5 rounded-md border border-line bg-surface px-4 py-2 text-sm font-semibold text-ink transition-all hover:border-accent/40 hover:text-accent"
               >
                 <Download className="size-3.5" />
-                Résumé
+               Resume
               </a>
               <a
                 href="#contact"

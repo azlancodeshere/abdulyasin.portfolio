@@ -66,7 +66,7 @@ export default function About() {
               className="inline-flex items-center gap-1.5 rounded-md border border-emerald-live/40 bg-emerald-live/10 px-4 py-2 text-sm font-semibold text-emerald-live hover:bg-emerald-live/15 transition-colors"
             >
               <Download className="size-3.5" />
-              Download Résumé
+              Download  Resume
             </a>
             <a
               href={profile.links.github}
