@@ -3,150 +3,139 @@ import { FileText, Menu, X, ArrowUpRight } from "lucide-react";
 import { nav, profile } from "../data/profile.js";
 
 export default function Header() {
-  const [scrolled, setScrolled] = useState(false);
-  const [active, setActive] = useState("");
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [scrolled, setScrolled]         = useState(false);
+  const [active, setActive]             = useState("");
+  const [mobileMenuOpen, setMobile]     = useState(false);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20);
+    const onScroll = () => setScrolled(window.scrollY > 10);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   useEffect(() => {
-    const ids = nav.map((n) => n.href.slice(1));
+    const ids      = nav.map((n) => n.href.slice(1));
     const sections = ids.map((id) => document.getElementById(id)).filter(Boolean);
     if (!sections.length) return;
-
-    const observer = new IntersectionObserver(
+    const obs = new IntersectionObserver(
       (entries) => {
-        const visible = entries
-          .filter((e) => e.isIntersecting)
+        const v = entries.filter((e) => e.isIntersecting)
           .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
-        if (visible) setActive(visible.target.id);
+        if (v) setActive(v.target.id);
       },
       { rootMargin: "-20% 0px -60% 0px", threshold: [0, 0.25, 0.5] },
     );
-
-    sections.forEach((s) => observer.observe(s));
-    return () => observer.disconnect();
+    sections.forEach((s) => obs.observe(s));
+    return () => obs.disconnect();
   }, []);
 
   useEffect(() => {
-    const handleKeyDown = (e) => { if (e.key === "Escape") setMobileMenuOpen(false); };
-    const handleResize = () => { if (window.innerWidth >= 1024) setMobileMenuOpen(false); };
-    window.addEventListener("keydown", handleKeyDown);
-    window.addEventListener("resize", handleResize);
-    return () => {
-      window.removeEventListener("keydown", handleKeyDown);
-      window.removeEventListener("resize", handleResize);
-    };
+    const kd = (e) => { if (e.key === "Escape") setMobile(false); };
+    const rz = () => { if (window.innerWidth >= 1024) setMobile(false); };
+    window.addEventListener("keydown", kd);
+    window.addEventListener("resize", rz);
+    return () => { window.removeEventListener("keydown", kd); window.removeEventListener("resize", rz); };
   }, []);
 
   return (
     <header
-      className={`sticky top-0 z-40 w-full transition-all duration-300 ${
+      className={`sticky top-0 z-40 w-full transition-all duration-200 ${
         scrolled
-          ? "border-b border-line bg-page/90 shadow-xl shadow-black/30 backdrop-blur-xl"
+          ? "border-b border-line bg-subtle/95 shadow-md shadow-black/40 backdrop-blur-xl"
           : "border-b border-transparent bg-transparent"
       }`}
     >
-      <nav aria-label="Main Navigation" className="wrap flex h-16 items-center justify-between gap-4">
-        {/* Logo */}
-        <a href="#top" className="group flex items-center gap-3 transition-opacity hover:opacity-90">
-          <div className="relative flex size-9 items-center justify-center rounded-xl border border-line bg-surface font-mono text-xs font-extrabold text-accent shadow-inner transition-all group-hover:border-accent/40 group-hover:shadow-accent/10">
+      <nav aria-label="Main" className="wrap flex h-14 items-center justify-between gap-4">
+
+        {/* Logo — GitHub style: avatar + name */}
+        <a href="#top" className="group flex items-center gap-2.5 transition-opacity hover:opacity-80">
+          <div className="relative flex size-8 items-center justify-center rounded-full border border-line bg-surface font-mono text-xs font-extrabold text-accent">
             {profile.initials}
             <span className="absolute -top-0.5 -right-0.5 size-2 rounded-full bg-emerald-live ring-2 ring-page" />
           </div>
-          <div className="flex flex-col">
-            <span className="text-sm font-bold tracking-tight text-ink">{profile.name}</span>
-            <span className="hidden text-[10px] font-mono text-ink-3 lg:block tracking-wide">
-              Full Stack · Backend Focused
-            </span>
-          </div>
+          <span className="text-sm font-semibold text-ink">{profile.name}</span>
         </a>
 
-        {/* Desktop nav */}
-        <div className="hidden items-center gap-1 lg:flex">
-          <ul className="flex items-center gap-0.5 rounded-2xl border border-line bg-surface/70 p-1 backdrop-blur-md">
-            {nav.map((item) => {
-              const isActive = active === item.href.slice(1);
-              return (
-                <li key={item.href}>
-                  <a
-                    href={item.href}
-                    className={`block rounded-xl px-4 py-1.5 text-xs font-semibold tracking-wide transition-all ${
-                      isActive
-                        ? "bg-accent text-page shadow-sm"
-                        : "text-ink-3 hover:bg-surface-hover hover:text-ink"
-                    }`}
-                  >
-                    {item.label}
-                  </a>
-                </li>
-              );
-            })}
-          </ul>
-        </div>
+        {/* Desktop nav — GitHub underline style */}
+        <ul className="hidden items-center gap-0 lg:flex">
+          {nav.map((item) => {
+            const isActive = active === item.href.slice(1);
+            return (
+              <li key={item.href}>
+                <a
+                  href={item.href}
+                  className={`relative flex items-center px-3.5 py-4 text-sm font-medium transition-colors ${
+                    isActive
+                      ? "text-ink after:absolute after:bottom-0 after:left-0 after:right-0 after:h-0.5 after:bg-accent after:rounded-full"
+                      : "text-ink-2 hover:text-ink"
+                  }`}
+                >
+                  {item.label}
+                </a>
+              </li>
+            );
+          })}
+        </ul>
 
         {/* Right actions */}
         <div className="flex items-center gap-2">
-          <div className="hidden items-center gap-1.5 rounded-full border border-emerald-live/20 bg-emerald-live/8 px-2.5 py-1 text-[11px] font-medium text-emerald-live lg:flex">
+          {/* Available pill */}
+          <span className="hidden items-center gap-1.5 rounded-full border border-emerald-live/25 bg-emerald-live/8 px-2.5 py-1 text-[11px] font-semibold text-emerald-live lg:flex">
             <span className="relative flex size-1.5">
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-live opacity-75" />
               <span className="relative inline-flex size-1.5 rounded-full bg-emerald-live" />
             </span>
             Available
-          </div>
+          </span>
 
+          {/* Résumé — GitHub green button style */}
           <a
             href={profile.resume}
             target="_blank"
             rel="noreferrer"
-            className="inline-flex items-center gap-1.5 rounded-xl border border-line bg-surface px-3.5 py-1.5 text-xs font-bold text-ink-2 shadow-sm transition-all hover:border-line-hi hover:text-accent hover:-translate-y-0.5"
+            className="hidden sm:inline-flex items-center gap-1.5 rounded-md border border-line bg-surface px-3 py-1.5 text-xs font-semibold text-ink shadow-sm transition-all hover:border-accent/40 hover:text-accent"
           >
-            <FileText className="size-3.5" aria-hidden="true" />
-            <span className="hidden sm:inline">Résumé</span>
+            <FileText className="size-3.5" />
+            Résumé
           </a>
 
+          {/* Mobile burger */}
           <button
             type="button"
-            onClick={() => setMobileMenuOpen((o) => !o)}
-            aria-label="Toggle navigation menu"
+            onClick={() => setMobile((o) => !o)}
+            aria-label="Menu"
             aria-expanded={mobileMenuOpen}
-            className="flex size-10 items-center justify-center rounded-xl border border-line bg-surface text-ink transition-colors hover:border-line-hi hover:bg-surface-hover lg:hidden"
+            className="flex size-9 items-center justify-center rounded-md border border-line bg-surface text-ink-2 transition-colors hover:text-ink lg:hidden"
           >
             {mobileMenuOpen ? <X className="size-4" /> : <Menu className="size-4" />}
           </button>
         </div>
       </nav>
 
-      {/* Mobile menu */}
+      {/* Mobile drawer */}
       {mobileMenuOpen && (
-        <div className="border-b border-line bg-page/98 px-4 pt-2 pb-6 backdrop-blur-2xl lg:hidden">
-          <ul className="flex flex-col gap-0.5">
+        <div className="border-b border-line bg-subtle px-4 pb-5 pt-2 lg:hidden">
+          <ul className="space-y-0.5">
             {nav.map((item) => {
               const isActive = active === item.href.slice(1);
               return (
                 <li key={item.href}>
                   <a
                     href={item.href}
-                    onClick={() => setMobileMenuOpen(false)}
-                    className={`flex items-center justify-between rounded-xl px-4 py-3 text-sm font-semibold transition-colors ${
-                      isActive
-                        ? "bg-accent-muted text-accent"
-                        : "text-ink-2 hover:bg-surface hover:text-ink"
+                    onClick={() => setMobile(false)}
+                    className={`flex items-center justify-between rounded-md px-3 py-2 text-sm font-medium transition-colors ${
+                      isActive ? "bg-accent/10 text-accent" : "text-ink-2 hover:bg-surface hover:text-ink"
                     }`}
                   >
-                    <span>{item.label}</span>
-                    <ArrowUpRight className="size-3.5 opacity-50" />
+                    {item.label}
+                    <ArrowUpRight className="size-3.5 opacity-40" />
                   </a>
                 </li>
               );
             })}
           </ul>
-          <div className="mt-4 flex items-center justify-between border-t border-line pt-4 text-xs">
+          <div className="mt-3 border-t border-line pt-3 flex items-center justify-between text-xs">
             <span className="flex items-center gap-1.5 text-emerald-live font-medium">
               <span className="size-1.5 rounded-full bg-emerald-live" />
               Available for hire
