@@ -55,6 +55,24 @@ export const profile = {
 
   featured: [
     {
+      name: "Endloops Website",
+      category: "Frontend",
+      kind: "SaaS Marketing Site",
+      blurb:
+        "Five-page marketing site for Endloops — financial automation solutions and standalone tools for accounting and audit professionals.",
+      points: [
+        "Home, Solutions, Tools, About and Contact routes with a validated demo-request form and a real 404 page, built with React Router.",
+        "The end-to-end solutions vs standalone tools distinction is restated across the hero, page intros, tabbed home section, footer and FAQ so it can't be missed.",
+        "Design tokens live in one place under Tailwind's @theme, with brand colours sampled from the supplied logo; axe-core + Puppeteer checks in the toolchain.",
+      ],
+      stack: ["React", "Vite", "Tailwind CSS", "React Router"],
+      live: "https://endloops-website.vercel.app",
+      code: `${REPO}/endloops-website`,
+      image: "/projects/endloops-website.png",
+      repo: "endloops-website",
+      stars: 0,
+    },
+    {
       name: "Surhires",
       category: "Frontend",
       kind: "Recruitment Platform",
@@ -107,6 +125,24 @@ export const profile = {
       image: "/projects/inventory-management.jpg",
       repo: "inventory-management",
       stars: 1,
+    },
+    {
+      name: "Global Buyer Export Dashboard",
+      category: "Full Stack",
+      kind: "Export Sales Pipeline",
+      blurb:
+        "Full-stack TypeScript dashboard that automates buyer discovery, email validation, AI classification and Gmail outreach for an export business targeting the US.",
+      points: [
+        "Multi-source buyer discovery (Google, LinkedIn, ImportYeti, ThomasNet, directories) with country → state → city narrowing, CSV import and live contact extraction.",
+        "Email validation with syntax, disposable-domain and live DNS MX checks; Gemini AI classifies each contact as business or individual with confidence and reasoning.",
+        "Personalized Gmail/SMTP outreach with templates, PDF attachment and email history, plus duplicate prevention, Recharts reports and CSV export.",
+      ],
+      stack: ["Next.js", "TypeScript", "React", "Node.js", "Express", "Recharts", "Tailwind CSS"],
+      live: "https://global-buyer-export-dashboard.vercel.app",
+      code: `${REPO}/global-buyer-export-dashboard`,
+      image: "/projects/global-buyer-export-dashboard.png",
+      repo: "global-buyer-export-dashboard",
+      stars: 0,
     },
     {
       name: "Ticket Booking",
